@@ -1,14 +1,35 @@
 
+import State
 
+#########################################
 
-class State:
+def robotIsOnBase(s):
+  return s.posRobot==s.posBase
 
-  battery  = 5              # Battery life. Between 0 & 5.
-  posRobot = [0,0]          # x,y
-  posBase  = [0,0]          # x,y
-  roomGrid = [[0, 0, 0],    # 0=clean, 1=dirty.
-              [0, 0, 0]]
+def wallUp(s):
+  return True
 
+def wallDown(s):
+  return True
+
+def wallRight(s):
+  return True
+
+def wallLeft(s):
+  return True
+
+#########################################
+
+class Simulator:
+  def launch():
+    hey = 'hey'
+    a = State
+    print(wallUp(a))
+
+#########################################
+
+s = Simulator
+s.launch()
 
 
 
