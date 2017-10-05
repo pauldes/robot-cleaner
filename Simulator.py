@@ -49,8 +49,6 @@ def batteryFull(s):
 def batteryEmpty(s):
   return s.battery==0
 
-#########################################
-
 class Simulator:
 
 

@@ -17,7 +17,7 @@ class State:
 
   # Pretty-printing the state
   def prettyPrint(self):
-    # Note: only for 3*2 matrix
+    # Note: only for 3*2 matrix (for now...)
     matrix  = [[' ',' ',' '],[' ',' ',' ']]
     matrix[self.posRobot[1]][self.posRobot[0]] = 'r'
     matrix[self.posBase[1]][self.posBase[0]] = 'b'
