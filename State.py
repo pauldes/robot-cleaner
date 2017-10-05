@@ -1,18 +1,19 @@
 import random
 
+ROOM_SIZE_X = 3
+ROOM_SIZE_Y = 2
+BATTERY_CAPACITY = 5
+
 class State:
 
-  # Setting the room size
-  sizeX = 3
-  sizeY = 2
   # Picking some values for the robot and base initial position
-  randIntX = random.randint(0,sizeX-1)
-  randIntY = random.randint(0,sizeY-1)
+  randIntX = random.randint(0,ROOM_SIZE_X-1)
+  randIntY = random.randint(0,ROOM_SIZE_Y-1)
   # The components of a State:
-  battery  = 5                        # Battery life. Between 0 & 5.
-  posRobot = [randIntX,randIntY]      # (x,y)
-  posBase  = [randIntX,randIntY]      # (x,y)
-  roomGrid = [ [1]*sizeX ]*sizeY      # 0=clean, 1=dirty.
+  battery  = BATTERY_CAPACITY                # Battery life. Between 0 & 5.
+  posRobot = [randIntX,randIntY]             # (x,y)
+  posBase  = [randIntX,randIntY]             # (x,y)
+  roomGrid = [ [1]*ROOM_SIZE_X ]*ROOM_SIZE_Y # 0=clean, 1=dirty.
 
   # Pretty-printing the state
   def prettyPrint(self):
