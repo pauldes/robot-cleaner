@@ -46,23 +46,17 @@ reward_wall_bottom = {action_vacuum : -1, action_recharge : -1}
 #########################################
 
 class Simulator:
-  def launch(self):
-
-    s = State.State()
-    s.prettyPrint()
-
-    #Example of use:
-    action = action_recharge
-    reward = 0
-    if(wallBottom):
-      reward += reward_wall_bottom[action]
+    def launch(self, state, action, mode):
+      #mode 1=DP , 2=MC, 3=QL
+        self.state = State(state)
+        self.state.pretty_print()
+        self.mode = mode
+        self.action = action
+        self.reward = 0
+        self.proba=0
 
 
 
-#########################################
-
-s = Simulator()
-s.launch()
 
 
 
