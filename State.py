@@ -15,6 +15,8 @@ class State:
   posBase  = [randIntX,randIntY]             # (x,y)
   roomGrid = [ [0]*ROOM_SIZE_X ]*ROOM_SIZE_Y # 0=clean, 1=dirty.
 
+  #roomGrid[ligne][colonne]
+
   # Pretty-printing the state
   def prettyPrint(self):
     # Note: only for 3*2 matrix (for now...)
