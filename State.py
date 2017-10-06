@@ -4,8 +4,8 @@ class State:
 
     #class variable shared  by all instances
     # Setting the room size
-    sizeX = 3
-    sizeY = 2
+    sizeX = 2 #colonne
+    sizeY = 2 #line
 
     def __init__(self, battery, posRobot, posBase, roomGrid):
         if battery and posRobot and posBase and roomGrid:
@@ -29,6 +29,10 @@ class State:
         rand_int_x = random.randint(0, self.sizeX - 1)
         rand_int_y = random.randint(0, self.sizeY - 1)
         return [rand_int_x, rand_int_y]
+
+    def is_the_same(self, other_state):
+        return self.battery == other_state.battery and self.posBase == other_state.posBase \
+               and self.posRobot == other_state.posRobot and self.roomGrid == other_state.roomGrid
 
     def pick_a_random_state(self):
         #self.battery = self.randrange_float(0, 5, 0.5)
@@ -59,3 +63,6 @@ class State:
         print('     Robot:')
         print('     |'+matrix[0][0]+'|'+matrix[0][1]+'|'+matrix[0][2]+'|')
         print('     |'+matrix[1][0]+'|'+matrix[1][1]+'|'+matrix[1][2]+'|')
+
+    def __str__(self):
+        return "State: battery "+ str(self.battery)+ " robot "+ str(self.posRobot) +" base "+ str(self.posBase)+ " room "+ str(self.roomGrid)
