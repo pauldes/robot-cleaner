@@ -105,6 +105,7 @@ class Simulator:
       print()
       # Will return P(s'|s,a) pour tous s' possibles, et s', and R(s,a)
       # Forme : r,[Ps'1 , Ps'2, ...],[s'1, s'2]
+      return reward
     if(algorithm==algo_TD or algorithm==algo_MC):
       print()
       # s.doAction(a) ...
