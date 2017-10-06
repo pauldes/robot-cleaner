@@ -15,14 +15,16 @@ class DynamicProgramming:
     policy = Policy()
 
     def generate_all_room_state(self, b, pRob, pBas):
-        roomG = [[0] * State.sizeX] * State.sizeY  # room
+
         nbcombi = pow(2, State.sizeX * State.sizeY)  # room size ^2
         lroom = State.sizeX * State.sizeY  # room size
-        binary = [0]*lroom # list of all cases in room
+
 
         n = 0
 
         while n < nbcombi:  # generate all combi possible
+            roomG = [[0] * State.sizeX] * State.sizeY  # room
+            binary = [0] * lroom  # list of all cases in room
             nb = str(bin(n))  # count in binary
             nb = nb[2:]  # get only the numerical part
 
@@ -41,8 +43,7 @@ class DynamicProgramming:
 
             ns = State(b, pRob, pBas, roomG)
             self.states.append(ns)
-            print(self.states[0])
-            print(self.states[-1])
+
             n += 1
 
 
@@ -52,7 +53,7 @@ class DynamicProgramming:
                 for pry in range(0, State.sizeY):
                     for pbx in range(0, State.sizeX):
                         for pby in range(0, State.sizeY):
-                            self.generate_all_room_state(b, [prx, pry], [pbx, pby])
+                            self.generate_all_room_state(b, [prx, pry], [pbx, pby],)
 
     def find_index_of_new_state(self, news):
         for ind, s in enumerate(self.states):
@@ -118,12 +119,11 @@ class DynamicProgramming:
                 # compute max value
                 ind_a_max, v_value[ind] = self.max_perf(q_s_a)
                 self.policy.add_optimized_policy(s, self.actions[ind_a_max])
-                if ind == 0:
-                    break
+
             if self.infinite_normal(v_value, v_value_prime) <= self.epsilon:
                 break
         print("performance: ", v_value)
-        self.policy.show_policy()
+       # self.policy.show_policy()
 
 if __name__ == "__main__":
     dp = DynamicProgramming()
