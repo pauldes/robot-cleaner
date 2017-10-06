@@ -6,21 +6,15 @@ class State:
     # Setting the room size
     sizeX = 2 #colonne
     sizeY = 2 #line
+    battery_capacity = 5
 
     def __init__(self, battery, posRobot, posBase, roomGrid):
-        if battery and posRobot and posBase and roomGrid:
-            #initialisation through the passed state
-            self.battery = battery
-            self.posRobot = posRobot
-            self.posBase = posBase
-            self.roomGrid = roomGrid
-        else :
-            #initial arbitrary state
-            # Picking some values for the robot and base initial position
-            self.battery = 5  # Battery life. Between 0 & 5.
-            self.posRobot = self.random_tuple()  # (x,y)
-            self.posBase = self.random_tuple()  # (x,y)
-            self.roomGrid = [[1] * self.sizeX] * self.sizeY  # 0=clean, 1=dirty. #roomGrid[ligne][colonne]
+        #initialisation through the passed state
+        self.battery = battery
+        self.posRobot = posRobot
+        self.posBase = posBase
+        self.roomGrid = roomGrid
+
 
     def randrange_float(self, start, stop, step): # allow to choose a random value between start and stop with a step
         return random.randint(0, int((stop - start) / step)) * step + start

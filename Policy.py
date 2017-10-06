@@ -12,4 +12,6 @@ class Policy:
         for pol in self.mappingList:
             return new_state in pol
 
-
+    def show_policy(self):
+        for element in self.mappingList:
+            print(str(element[0]), " =>", element[1])
