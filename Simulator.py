@@ -65,21 +65,21 @@ def compute_next_states(state,action):
       next_state.battery = state.battery-1
 
   # Position
-  if(action == action_move_left and wallLeft(state)==False):
+  elif(action == action_move_left and wallLeft(state)==False):
       next_state.posRobot[0] = state.posRobot[0] - 1
 
-  if(action == action_move_right and wallRight(state)==False):
+  elif(action == action_move_right and wallRight(state)==False):
       next_state.posRobot[0] = state.posRobot[0] + 1
 
-  if(action == action_move_up and wallTop(state)==False):
+  elif(action == action_move_up and wallTop(state)==False):
       next_state.posRobot[1] = state.posRobot[1] - 1
 
-  if(action == action_move_down and wallBottom(state)==False):
+  elif(action == action_move_down and wallBottom(state)==False):
       next_state.posRobot[1] = state.posRobot[1] + 1
 
 
    # Current Cell
-  if(action==action_vacuum and currentCellIsDirty(state)) :
+  elif(action==action_vacuum and currentCellIsDirty(state)) :
      #TODO, temporary to avoid 2 possible s' (still dirty 0.33 and clean 0.66)
      next_state.roomGrid[state.posRobot[1]][state.posRobot[0]]=0
 
