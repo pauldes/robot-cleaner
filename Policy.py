@@ -15,3 +15,8 @@ class Policy:
     def show_policy(self):
         for element in self.mappingList:
             print(str(element[0]), " =>", element[1])
+
+    def random_policy(self):
+        a = random.choice(pool_of_actions)
+        return a
+
