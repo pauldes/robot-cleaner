@@ -1,6 +1,9 @@
 
-import State
+
 import random
+import State
+
+
 
 #########################################
 
@@ -50,7 +53,42 @@ def batteryEmpty(s):
 # Apply an action to a state and get the possible next states with associate probabilities
 def compute_next_states(state,action):
   next_possible_states = []
+  next_state = state
   #TODO
+  # Battery
+  if(action == action_recharge and batteryFull(state)==False):
+      next_state.battery = state.battery+1
+  if(action == action_recharge and batteryFull(state)):
+      next_state.battery = state.battery
+  if(action != action_recharge and state.battery > 0):
+      next_state.battery = state.battery-1
+
+  # Position
+  if(action == action_move_left and wallLeft(state)==False):
+      next_state.posRobot[0] = state.posRobot[0] - 1
+
+  if(action == action_move_right and wallRight(state)==False):
+      next_state.posRobot[0] = state.posRobot[0] + 1
+
+  if(action == action_move_up and wallTop(state)==False):
+      next_state.posRobot[1] = state.posRobot[1] - 1
+
+  if(action == action_move_down and wallBottom(state)==False):
+      next_state.posRobot[1] = state.posRobot[1] + 1
+
+
+   # Current Cell
+  if(action==action_vacuum and currentCellIsDirty(state)) :
+     #TODO, temporary to avoid 2 possible s' (still dirty 0.33 and clean 0.66)
+     next_state.roomGrid[state.posRobot[1]][state.posRobot[0]]=0
+
+  if(action==action_vacuum and currentCellIsDirty(state)==False) :
+     next_state.roomGrid[state.posRobot[1]][state.posRobot[0]]=0
+     #so.. nothing happens
+
+  next_possible_states.append([next_state,1])
+  #Only 1 for now
+
   #For testing:
   return next_possible_states
 
@@ -95,7 +133,7 @@ class Simulator:
 
   def simulate(self,state,action,algorithm):
 
-    # The simulator receive a state and an action
+    # The simulator receives a state and an action
 
     print('Algorithm: '+algorithm)
     print('I received the state')
@@ -124,11 +162,11 @@ class Simulator:
 
 #########################################
 
-
-simulator = Simulator()
-s = State.State()
-a = random.choice(pool_of_actions)
-simulator.simulate(s,a,algo_DP)
+if __name__ == "__main__":
+  simulator = Simulator()
+  s = State.State()
+  a = random.choice(pool_of_actions)
+  simulator.simulate(s,a,algo_DP)
 
 
 
