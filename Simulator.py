@@ -1,5 +1,4 @@
 
-
 import random
 import State
 
@@ -29,6 +28,7 @@ reward_wall_left =     {action_vacuum : 0,  action_recharge : 0, action_move_lef
 reward_wall_right =    {action_vacuum : 0,  action_recharge : 0, action_move_left : 0,  action_move_right : -10, action_move_up : 0,  action_move_down : 0}
 reward_wall_top =      {action_vacuum : 0,  action_recharge : 0, action_move_left : 0,  action_move_right : 0,  action_move_up : -10, action_move_down : 0}
 reward_wall_bottom =   {action_vacuum : 0,  action_recharge : 0, action_move_left : 0,  action_move_right : 0,  action_move_up : 0,  action_move_down : -10}
+reward_robot_off_base= {action_vacuum : 0,  action_recharge : -20, action_move_left : 0,  action_move_right : 0,  action_move_up : 0,  action_move_down : 0}
 
 
 # Walls surrounding the robot
@@ -46,6 +46,8 @@ def batteryFull(s):
   return s.battery==State.BATTERY_CAPACITY
 def batteryEmpty(s):
   return s.battery==0
+def robotOnBase(s):
+  return s.posRobot[0]==s.posBase[0] and s.posRobot[1]==s.posBase[1]
 
 
 # Apply an action to a state and get the possible next states with associate probabilities
@@ -55,11 +57,11 @@ def compute_next_states(state,action):
   next_state = state
 
   # Battery
-  if(action == action_recharge and batteryFull(state)==False):
+  if(action == action_recharge and batteryFull(state)==False and robotOnBase(state)):
       next_state.battery = state.battery+1
-  if(action == action_recharge and batteryFull(state)):
+  elif(action == action_recharge and batteryFull(state) and robotOnBase(state)):
       next_state.battery = state.battery
-  if(action != action_recharge and state.battery > 0):
+  elif(action != action_recharge and state.battery > 0):
       next_state.battery = state.battery-1
 
   # Position
@@ -124,6 +126,9 @@ def compute_reward(s,action):
   else:
     #print('The current cell is clean')
     reward += reward_cell_clean[action]
+  # Charging off base
+  if(robotOnBase(s)==False):
+    reward += reward_robot_off_base[action]
   return reward
 
 
