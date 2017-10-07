@@ -65,25 +65,25 @@ def compute_next_states(state,action):
       next_state.battery = state.battery-1
 
   # Position
-  if(action == action_move_left and wallLeft(state)==False):
+  if(action == action_move_left and wallLeft(state)==False and state.battery > 0):
       next_state.posRobot[0] = state.posRobot[0] - 1
 
-  if(action == action_move_right and wallRight(state)==False):
+  if(action == action_move_right and wallRight(state)==False and state.battery > 0):
       next_state.posRobot[0] = state.posRobot[0] + 1
 
-  if(action == action_move_up and wallTop(state)==False):
+  if(action == action_move_up and wallTop(state)==False and state.battery > 0):
       next_state.posRobot[1] = state.posRobot[1] - 1
 
-  if(action == action_move_down and wallBottom(state)==False):
+  if(action == action_move_down and wallBottom(state)==False and state.battery > 0):
       next_state.posRobot[1] = state.posRobot[1] + 1
 
 
    # Current Cell
-  if(action==action_vacuum and currentCellIsDirty(state)) :
+  if(action==action_vacuum and currentCellIsDirty(state) and state.battery > 0) :
      #TODO, temporary to avoid 2 possible s' (still dirty 0.33 and clean 0.66)
      next_state.roomGrid[state.posRobot[1]][state.posRobot[0]]=0
 
-  elif(action==action_vacuum and currentCellIsDirty(state)==False) :
+  elif(action==action_vacuum and currentCellIsDirty(state)==False and state.battery > 0) :
      next_state.roomGrid[state.posRobot[1]][state.posRobot[0]]=0
      #so.. nothing happens
 
