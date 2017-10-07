@@ -13,7 +13,8 @@ class State:
   battery  = BATTERY_CAPACITY                # Battery life. Between 0 & 5.
   posRobot = [randIntX,randIntY]             # (x,y)
   posBase  = [randIntX,randIntY]             # (x,y)
-  roomGrid = [ [0]*ROOM_SIZE_X ]*ROOM_SIZE_Y # 0=clean, 1=dirty.
+  #roomGrid = [ [1]*ROOM_SIZE_X ]*ROOM_SIZE_Y # 0=clean, 1=dirty.
+  roomGrid = [[1,1,1],[1,1,1]]
 
   #roomGrid[ligne][colonne]
 

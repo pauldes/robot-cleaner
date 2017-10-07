@@ -3,8 +3,6 @@
 import random
 import State
 
-
-
 #########################################
 
 #Algorithms
@@ -52,9 +50,10 @@ def batteryEmpty(s):
 
 # Apply an action to a state and get the possible next states with associate probabilities
 def compute_next_states(state,action):
+
   next_possible_states = []
   next_state = state
-  #TODO
+
   # Battery
   if(action == action_recharge and batteryFull(state)==False):
       next_state.battery = state.battery+1
@@ -82,7 +81,7 @@ def compute_next_states(state,action):
      #TODO, temporary to avoid 2 possible s' (still dirty 0.33 and clean 0.66)
      next_state.roomGrid[state.posRobot[1]][state.posRobot[0]]=0
 
-  if(action==action_vacuum and currentCellIsDirty(state)==False) :
+  elif(action==action_vacuum and currentCellIsDirty(state)==False) :
      next_state.roomGrid[state.posRobot[1]][state.posRobot[0]]=0
      #so.. nothing happens
 
@@ -145,20 +144,25 @@ class Simulator:
 
     next_possible_states = compute_next_states(state,action)
     print('The next possible states are: ')
+
+    list_of_next_possible_states=[]
+    list_of_next_possible_probabilities=[]
+
     for state,probability in next_possible_states:
       state.prettyPrint()
       print("with probability p="+str(probability))
+      list_of_next_possible_states.append(state)
+      list_of_next_possible_probabilities.append(probability)
 
 
     if(algorithm==algo_DP):
-      print()
       # Will return P(s'|s,a) pour tous s' possibles, et s', and R(s,a)
       # Forme : r,[Ps'1 , Ps'2, ...],[s'1, s'2]
-      return reward
+      return reward, list_of_next_possible_probabilities, list_of_next_possible_states
+
     if(algorithm==algo_TD or algorithm==algo_MC):
-      print()
-      # s.doAction(a) ...
       # Will return R(s,a) and all possible s'
+      return reward, list_of_next_possible_states
 
 #########################################
 
@@ -167,7 +171,4 @@ if __name__ == "__main__":
   s = State.State()
   a = random.choice(pool_of_actions)
   simulator.simulate(s,a,algo_DP)
-
-
-
 
