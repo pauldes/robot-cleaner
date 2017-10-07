@@ -141,7 +141,7 @@ class Simulator:
 
     print('Algorithm: '+algorithm)
     print('I received the state')
-    state.prettyPrint()
+    state.pretty_print()
     print('and the action '+action)
 
     reward = compute_reward(state,action)
@@ -154,7 +154,7 @@ class Simulator:
     list_of_next_possible_probabilities=[]
 
     for state,probability in next_possible_states:
-      state.prettyPrint()
+      state.pretty_print()
       print("with probability p="+str(probability))
       list_of_next_possible_states.append(state)
       list_of_next_possible_probabilities.append(probability)
@@ -172,8 +172,10 @@ class Simulator:
 #########################################
 
 if __name__ == "__main__":
+  print('testing simulator')
   simulator = Simulator()
-  s = State.State()
+  s = State.State(5, [0,0], [0,0], [[1,1,1],[1,1,1]])
+  s.pick_a_random_state()
   a = random.choice(pool_of_actions)
   simulator.simulate(s,a,algo_DP)
 

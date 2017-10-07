@@ -1,12 +1,15 @@
 import random
 
+ROOM_SIZE_X = 3
+ROOM_SIZE_Y = 2
+BATTERY_CAPACITY = 5
+
 class State:
 
     #class variable shared  by all instances
-    # Setting the room size
-    sizeX = 2 #colonne
-    sizeY = 2 #line
-    battery_capacity = 5
+    sizeX = ROOM_SIZE_X #colonne
+    sizeY = ROOM_SIZE_Y #line
+    battery_capacity = BATTERY_CAPACITY
 
     def __init__(self, battery, posRobot, posBase, roomGrid):
         #initialisation through the passed state
@@ -33,12 +36,12 @@ class State:
         self.battery = random.randint(0, 5)
         self.posRobot = self.random_tuple()
         self.posBase = self.random_tuple()
-        print("battery level : ", self.battery, ", posRobot : ", self.posRobot, ", posBase", self.posBase)
+        #print("battery level : ", self.battery, ", posRobot : ", self.posRobot, ", posBase", self.posBase)
         for l, line in enumerate(self.roomGrid):
             for e, elem in enumerate(line):
                 self.roomGrid[l][e] = random.randint(0, 1)
-        print(self.roomGrid)
-        self.pretty_print()
+        #print(self.roomGrid)
+        #self.pretty_print()
 
 
 
