@@ -178,4 +178,5 @@ if __name__ == "__main__":
   s.pick_a_random_state()
   a = random.choice(pool_of_actions)
   simulator.simulate(s,a,algo_DP)
+  print(s.getHash())
 

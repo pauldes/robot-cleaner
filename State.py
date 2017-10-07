@@ -63,3 +63,20 @@ class State:
 
     def __str__(self):
         return "State: battery "+ str(self.battery)+ " robot "+ str(self.posRobot) +" base "+ str(self.posBase)+ " room "+ str(self.roomGrid)
+
+    def getHash(self):
+        full = []
+        for x in range(0,self.sizeX):
+          for y in range(0,self.sizeY):
+            full.append( self.roomGrid[y][x] )
+        full.append(self.battery)
+        full.append(self.posRobot[0])
+        full.append(self.posRobot[1])
+        full.append(self.posBase[0])
+        full.append(self.posBase[1])
+        full.append(self.battery)
+        full_text =""
+        for c in full:
+          full_text+=str(c)
+        return full_text
+
