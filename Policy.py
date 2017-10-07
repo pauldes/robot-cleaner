@@ -1,4 +1,8 @@
 import State
+import random
+
+from Simulator import pool_of_actions
+
 
 class Policy:
 
