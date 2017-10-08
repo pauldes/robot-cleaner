@@ -4,6 +4,7 @@ import State
 import random
 from Simulator import pool_of_actions
 
+
 class MonteCarlo:
 
     epsilon = 0.01
@@ -14,6 +15,7 @@ class MonteCarlo:
     def run(self, limit):
 
         n=0
+        list_perf = []
         s1 = State.State(5, [0, 0], [0, 0], [[1, 1, 1], [1, 1, 1]])
         PI_policy = Policy.Policy()
         simulator = Simulator.Simulator()
@@ -28,6 +30,7 @@ class MonteCarlo:
         while(n<limit):
 
             n+=1
+            perf = 0
             random_number = random.uniform(0, 1)
             G = {}
 
@@ -45,6 +48,7 @@ class MonteCarlo:
                 a1 = random.choice(pool_of_actions)
 
             r1, list_possible_next_states = simulator.simulate(s1, a1, "Monte-Carlo")
+            perf = perf + r1
 
 
             if(hash_s1,a1) in SA_counter: #Have already seen this action before
@@ -65,6 +69,7 @@ class MonteCarlo:
             else:
                 a2 = random.choice(pool_of_actions)
             r2, list_possible_next_states = simulator.simulate(s2, a2, "Monte-Carlo")
+            perf = perf + r2
 
             if(hash_s2,a2) in SA_counter:
                 Q_function[hash_s2,a2] = (r2 + (SA_counter[hash_s2,a2])*Q_function[hash_s2,a2]) / (SA_counter[hash_s2,a2]+1.0)
@@ -84,6 +89,7 @@ class MonteCarlo:
             else:
                 a3 = random.choice(pool_of_actions)
             r3, list_possible_next_states = simulator.simulate(s3, a3, "Monte-Carlo")
+            perf = perf + r3
 
             if(hash_s3,a3) in SA_counter:
                 Q_function[hash_s3,a3] = (r3 + (SA_counter[hash_s3,a3])*Q_function[hash_s3,a3]) / (SA_counter[hash_s3,a3]+1.0)
@@ -93,6 +99,9 @@ class MonteCarlo:
                 Q_function[hash_s3,a3] = r3 +0.0
 
             #print(G)
+
+            # Getting the performance
+            list_perf.append(perf)
 
 
 
@@ -142,6 +151,7 @@ class MonteCarlo:
 
             print('Q-function built with '+str(len(Q_function))+ ' different tuples (s,a)')
             print(Q_function)
+            print(list_perf)
             #print(SA_counter)
 
 if __name__ == "__main__":
