@@ -28,6 +28,7 @@ class MonteCarlo:
         while(n<limit):
 
             n+=1
+            random_number = random.uniform(0, 1)
             G = {}
 
             # LENGTH-3 EPISODES
@@ -35,8 +36,11 @@ class MonteCarlo:
             # We choose randomly s1
             s1.pick_a_random_state()
             hash_s1 = s1.getHash()
-            if(PI_policy.state_already_exists(s1)):
-                a1 = PI_policy.find_the_action(s1)
+            if random_number > self.epsilon :
+                if(PI_policy.state_already_exists(s1)):
+                    a1 = PI_policy.find_the_action(s1)
+                else:
+                    a1 = random.choice(pool_of_actions)
             else:
                 a1 = random.choice(pool_of_actions)
 
@@ -53,8 +57,11 @@ class MonteCarlo:
             # We choose randomly s2 within the possible new states
             s2 = random.choice(list_possible_next_states)
             hash_s2 = s2.getHash()
-            if (PI_policy.state_already_exists(s2)):
-                a2 = PI_policy.find_the_action(s2)
+            if random_number > self.epsilon :
+                if (PI_policy.state_already_exists(s2)):
+                    a2 = PI_policy.find_the_action(s2)
+                else:
+                    a2 = random.choice(pool_of_actions)
             else:
                 a2 = random.choice(pool_of_actions)
             r2, list_possible_next_states = simulator.simulate(s2, a2, "Monte-Carlo")
@@ -69,8 +76,11 @@ class MonteCarlo:
             # We choose randomly s3 within the possible new states
             s3 = random.choice(list_possible_next_states)
             hash_s3 = s3.getHash()
-            if (PI_policy.state_already_exists(s3)):
-                a3 = PI_policy.find_the_action(s3)
+            if random_number > self.epsilon:
+                if (PI_policy.state_already_exists(s3)):
+                    a3 = PI_policy.find_the_action(s3)
+                else:
+                    a3 = random.choice(pool_of_actions)
             else:
                 a3 = random.choice(pool_of_actions)
             r3, list_possible_next_states = simulator.simulate(s3, a3, "Monte-Carlo")
@@ -85,7 +95,7 @@ class MonteCarlo:
             #print(G)
 
 
-            #TODO
+
             #Getting the best action for s1
             r_max = -1000
             best_action = ""
