@@ -1,5 +1,6 @@
 import random
 
+
 ROOM_SIZE_X = 3
 ROOM_SIZE_Y = 2
 BATTERY_CAPACITY = 5
@@ -7,8 +8,11 @@ BATTERY_CAPACITY = 5
 class State:
 
     #class variable shared  by all instances
-    sizeX = ROOM_SIZE_X #colonne
-    sizeY = ROOM_SIZE_Y #line
+
+    # Setting the room size
+    sizeX = ROOM_SIZE_X  # colonne
+    sizeY = ROOM_SIZE_Y  # line
+
     battery_capacity = BATTERY_CAPACITY
 
     def __init__(self, battery, posRobot, posBase, roomGrid):
@@ -36,12 +40,14 @@ class State:
         self.battery = random.randint(0, 5)
         self.posRobot = self.random_tuple()
         self.posBase = self.random_tuple()
+
         #print("battery level : ", self.battery, ", posRobot : ", self.posRobot, ", posBase", self.posBase)
         for l, line in enumerate(self.roomGrid):
             for e, elem in enumerate(line):
                 self.roomGrid[l][e] = random.randint(0, 1)
         #print(self.roomGrid)
         #self.pretty_print()
+
 
 
 
@@ -66,9 +72,9 @@ class State:
 
     def getHash(self):
         full = []
-        for x in range(0,self.sizeX):
-          for y in range(0,self.sizeY):
-            full.append( self.roomGrid[y][x] )
+        for x in range(0, self.sizeX):
+            for y in range(0, self.sizeY):
+                full.append(self.roomGrid[y][x])
         full.append(self.battery)
         full.append(self.posRobot[0])
         full.append(self.posRobot[1])

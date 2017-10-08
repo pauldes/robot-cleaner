@@ -3,7 +3,6 @@ import random
 
 from Simulator import pool_of_actions
 
-
 class Policy:
 
     mappingList = []
@@ -13,11 +12,12 @@ class Policy:
         hash = state.getHash()
         exist = False
         for element in self.mappingList:
-            if element[0].getHash() == hash:
+            if hash in element:
                 element[1] = action
                 exist = True
-        if exist == False:
-            self.mappingList.append((state, action))
+                break
+        if not exist:
+            self.mappingList.append([hash, action])
 
     def state_already_exists(self,new_state):
         for pol in self.mappingList:
@@ -31,9 +31,13 @@ class Policy:
         a = random.choice(pool_of_actions)
         return a
 
-    def find_the_action(self,state):
+    def find_the_action(self, state):
         hash_state = state.getHash()
-        for element in self.mappingList :
+        for element in self.mappingList:
             if element[0].getHash() == hash_state:
                 return element[1]
+
+
+
+
 

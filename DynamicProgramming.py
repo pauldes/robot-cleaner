@@ -8,6 +8,8 @@ class DynamicProgramming:
     # actions dictionnary
     actions = ['MOVE_LEFT', 'MOVE_RIGHT', 'MOVE_UP', 'MOVE_DOWN', 'VACUUM', 'RECHARGE']
     states = []
+    states_hash = []
+
     mode = 1
 
     epsilon = 0.01
@@ -44,6 +46,8 @@ class DynamicProgramming:
             ns = State(b, pRob, pBas, roomG)
             self.states.append(ns)
 
+            self.states_hash.append(ns.getHash())
+
             n += 1
 
 
@@ -56,13 +60,13 @@ class DynamicProgramming:
                             self.generate_all_room_state(b, [prx, pry], [pbx, pby],)
 
     def find_index_of_new_state(self, news):
-        for ind, s in enumerate(self.states):
-            if news.is_the_same(s):
-                print(ind, s)
-                return ind
-            else:
-                print("issue unknown state")
-                return None
+        news_hash = news.getHash()
+        if news_hash in self.states_hash:
+            return self.states_hash.index(news_hash)
+        else:
+            return None
+
+
 
     def pick_random_actions(self):
         rand_index = random.randint(0, len(self.actions)-1)
@@ -84,7 +88,6 @@ class DynamicProgramming:
             val = abs(v_value_prime[i]-v_value[i])
             if val > max_diff:
                 max_diff = val
-
         return max_diff
 
     def main(self):
@@ -123,7 +126,8 @@ class DynamicProgramming:
             if self.infinite_normal(v_value, v_value_prime) <= self.epsilon:
                 break
         print("performance: ", v_value)
-       # self.policy.show_policy()
+        self.policy.show_policy()
+
 
 if __name__ == "__main__":
     dp = DynamicProgramming()
