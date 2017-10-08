@@ -24,3 +24,9 @@ class Policy:
         a = random.choice(pool_of_actions)
         return a
 
+    def find_the_action(self,state):
+        hash_state = state.getHash()
+        for element in self.mappingList :
+            if element[0].getHash() == hash_state:
+                return element[1]
+
