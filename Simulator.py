@@ -139,23 +139,23 @@ class Simulator:
 
     # The simulator receives a state and an action
 
-    print('Algorithm: '+algorithm)
-    print('I received the state')
-    state.pretty_print()
-    print('and the action '+action)
+    #print('Algorithm: '+algorithm)
+    #print('I received the state')
+    #state.pretty_print()
+    #print('and the action '+action)
 
     reward = compute_reward(state,action)
-    print('The reward is '+str(reward))
+    #print('The reward is '+str(reward))
 
     next_possible_states = compute_next_states(state,action)
-    print('The next possible states are: ')
+    #print('The next possible states are: ')
 
     list_of_next_possible_states=[]
     list_of_next_possible_probabilities=[]
 
     for state,probability in next_possible_states:
-      state.pretty_print()
-      print("with probability p="+str(probability))
+      #state.pretty_print()
+      #print("with probability p="+str(probability))
       list_of_next_possible_states.append(state)
       list_of_next_possible_probabilities.append(probability)
 
