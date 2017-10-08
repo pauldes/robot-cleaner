@@ -3,6 +3,8 @@ import Policy
 import State
 import random
 from Simulator import pool_of_actions
+import matplotlib.pyplot as plt
+
 
 
 class MonteCarlo:
@@ -152,10 +154,15 @@ class MonteCarlo:
             print('Q-function built with '+str(len(Q_function))+ ' different tuples (s,a)')
             print(Q_function)
             print(list_perf)
+
+        plt.plot(list_perf)
+        plt.ylabel('some numbers')
+        plt.show()
+
             #print(SA_counter)
 
 if __name__ == "__main__":
   print('testing monte-carlo')
   monte_carlo = MonteCarlo()
-  monte_carlo.run(100)
+  monte_carlo.run(1000)
   print('done')
