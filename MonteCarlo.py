@@ -77,6 +77,7 @@ class MonteCarlo:
 
 
         #TODO
+        #Getting the best action for s1
         r_max = -1000
         best_action = ""
 
@@ -87,7 +88,7 @@ class MonteCarlo:
                     best_action = a
         print(best_action)
 
-
+        # Getting the best action for s2
         r_max2 = -1000
         best_action2 = ""
 
@@ -99,6 +100,7 @@ class MonteCarlo:
                         best_action2 = a
             print(best_action2)
 
+        # Getting the best action for s1
         r_max3 = -1000
         best_action3 = ""
 
@@ -109,6 +111,12 @@ class MonteCarlo:
                         r_max3 = r
                         best_action3 = a
             print(best_action3)
+
+        # Improving the policy
+        PI_policy.add_optimized_policy(s1, best_action)
+        PI_policy.add_optimized_policy(s2, best_action2)
+        PI_policy.add_optimized_policy(s3, best_action3)
+        PI_policy.show_policy()
 
 
             #slide 136
