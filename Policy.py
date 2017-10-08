@@ -10,7 +10,14 @@ class Policy:
 
     def add_optimized_policy(self, state, action):
         #add the optimized policy found by the algorithm with an immutable tuple (state,action)
-        self.mappingList.append((state, action))
+        hash = state.getHash()
+        exist = False
+        for element in self.mappingList:
+            if element[0].getHash() == hash:
+                element[1] = action
+                exist = True
+        if exist == False:
+            self.mappingList.append((state, action))
 
     def state_already_exists(self,new_state):
         for pol in self.mappingList:

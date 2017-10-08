@@ -120,7 +120,7 @@ class MonteCarlo:
                     if r > r_max:
                         r_max = r
                         best_action = a
-            #print(best_action)
+            print(best_action)
             PI_policy.add_optimized_policy(s1copy, best_action)
 
             # Getting the best action for s2
@@ -133,7 +133,7 @@ class MonteCarlo:
                         if r > r_max2:
                             r_max2 = r
                             best_action2 = a
-                #print(best_action2)
+                print(best_action2)
                 PI_policy.add_optimized_policy(s2copy, best_action2)
 
             # Getting the best action for s1
@@ -146,19 +146,19 @@ class MonteCarlo:
                         if r > r_max3:
                             r_max3 = r
                             best_action3 = a
-                #print(best_action3)
+                print(best_action3)
                 PI_policy.add_optimized_policy(s3copy, best_action3)
 
             # Improving the policy
 
 
 
-
+            PI_policy.show_policy()
 
                 #slide 136
 
-            #print('Q-function built with '+str(len(Q_function))+ ' different tuples (s,a)')
-            #print(Q_function)
+            print('Q-function built with '+str(len(Q_function))+ ' different tuples (s,a)')
+            print(Q_function)
         print(list_perf)
 
 
@@ -167,5 +167,5 @@ class MonteCarlo:
 if __name__ == "__main__":
   print('testing monte-carlo')
   monte_carlo = MonteCarlo()
-  monte_carlo.run(10000)
+  monte_carlo.run(5)
   print('done')
