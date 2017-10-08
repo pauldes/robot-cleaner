@@ -72,7 +72,7 @@ class MonteCarlo:
             #TODO foreach s appearing in the episode do π ← greedy w.r.t Q0 end
             #slide 136
 
-        print(Q_function)
+        print('Q-function built with '+str(len(Q_function))+ ' different tuples (s,a)')
         #print(SA_counter)
 
 if __name__ == "__main__":
