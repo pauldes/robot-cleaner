@@ -33,7 +33,6 @@ class MonteCarlo:
             a1 = random.choice(pool_of_actions)
             r1, list_possible_next_states = simulator.simulate(s1, a1, "Monte-Carlo")
 
-            G[s1.getHash(),a1] = r1
             if(s1.getHash(),a1) in SA_counter:
                 Q_function[s1.getHash(),a1] = (r1 + (SA_counter[s1.getHash(),a1])*Q_function[s1.getHash(),a1]) / (SA_counter[s1.getHash(),a1]+1.0)
                 SA_counter[s1.getHash(),a1] += 1
@@ -46,7 +45,6 @@ class MonteCarlo:
             a2 = random.choice(pool_of_actions)
             r2, list_possible_next_states = simulator.simulate(s2, a2, "Monte-Carlo")
 
-            G[s2.getHash(),a2] = r2
             if(s2.getHash(),a2) in SA_counter:
                 Q_function[s2.getHash(),a2] = (r2 + (SA_counter[s2.getHash(),a2])*Q_function[s2.getHash(),a2]) / (SA_counter[s2.getHash(),a2]+1.0)
                 SA_counter[s2.getHash(),a2] += 1
@@ -59,7 +57,6 @@ class MonteCarlo:
             a3 = random.choice(pool_of_actions)
             r3, list_possible_next_states = simulator.simulate(s3, a3, "Monte-Carlo")
 
-            G[s3.getHash(),a3] = r3
             if(s3.getHash(),a3) in SA_counter:
                 Q_function[s3.getHash(),a3] = (r3 + (SA_counter[s3.getHash(),a3])*Q_function[s3.getHash(),a3]) / (SA_counter[s3.getHash(),a3]+1.0)
                 SA_counter[s3.getHash(),a3] += 1
