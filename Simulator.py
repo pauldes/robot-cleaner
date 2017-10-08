@@ -166,8 +166,8 @@ class Simulator:
         if algorithm == algo_DP:
             # Will return P(s'|s,a) pour tous s' possibles, et s', and R(s,a)
             # Forme : r,[Ps'1 , Ps'2, ...],[s'1, s'2]
-            # return reward, list_of_next_possible_probabilities, list_of_next_possible_states
-            return reward,[],[]
+            return reward, list_of_next_possible_probabilities, list_of_next_possible_states
+
         if algorithm == algo_TD or algorithm == algo_MC:
             # Will return R(s,a) and all possible s'
             return reward, list_of_next_possible_states

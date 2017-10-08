@@ -38,3 +38,8 @@ class Policy:
         for element in self.mappingList:
             if element[0].getHash() == hash_state:
                 return element[1]
+
+
+
+
+

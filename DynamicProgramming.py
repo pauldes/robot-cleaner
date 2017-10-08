@@ -84,7 +84,6 @@ class DynamicProgramming:
             val = abs(v_value_prime[i]-v_value[i])
             if val > max_diff:
                 max_diff = val
-
         return max_diff
 
     def main(self):
@@ -106,6 +105,7 @@ class DynamicProgramming:
                     r_s_a, p_sPrime_knowingSandA, s_prime = sim.simulate(s, a, 'Dynamic Programming')
                     # warning p_sPrime and s_prime = lists
                     # do sum
+                    #print(r_s_a,p_sPrime_knowingSandA,s_prime[0].getHash())
                     if not p_sPrime_knowingSandA and not s_prime:
                         q_s_a[ind_a] = r_s_a
                     elif len(p_sPrime_knowingSandA) == len(s_prime):
@@ -123,7 +123,7 @@ class DynamicProgramming:
             if self.infinite_normal(v_value, v_value_prime) <= self.epsilon:
                 break
         print("performance: ", v_value)
-        # self.policy.show_policy()
+        self.policy.show_policy()
 
 if __name__ == "__main__":
     dp = DynamicProgramming()
