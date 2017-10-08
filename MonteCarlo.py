@@ -2,6 +2,7 @@ import Simulator
 import Policy
 import State
 import random
+from Simulator import pool_of_actions
 
 class MonteCarlo:
 
@@ -12,7 +13,7 @@ class MonteCarlo:
 
         n=0
         s1 = State.State(5, [0, 0], [0, 0], [[1, 1, 1], [1, 1, 1]])
-        p = Policy.Policy()
+        PI_policy = Policy.Policy()
         simulator = Simulator.Simulator()
 
         # Average reward for a tuple (s,a)
@@ -25,9 +26,11 @@ class MonteCarlo:
             n+=1
             G = {}
 
+            # LENGTH-3 EPISODES
+
             # We choose randomly s1
             s1.pick_a_random_state()
-            a1 = p.random_policy()
+            a1 = random.choice(pool_of_actions)
             r1, list_possible_next_states = simulator.simulate(s1, a1, "Monte-Carlo")
 
             G[s1.getHash(),a1] = r1
@@ -38,10 +41,9 @@ class MonteCarlo:
                 SA_counter[s1.getHash(),a1] = 1
                 Q_function[s1.getHash(),a1] = r1 +0.0
 
-
             # We choose randomly s2 within the possible new states
             s2 = random.choice(list_possible_next_states)
-            a2 = p.random_policy()
+            a2 = random.choice(pool_of_actions)
             r2, list_possible_next_states = simulator.simulate(s2, a2, "Monte-Carlo")
 
             G[s2.getHash(),a2] = r2
@@ -54,7 +56,7 @@ class MonteCarlo:
 
             # We choose randomly s3 within the possible new states
             s3 = random.choice(list_possible_next_states)
-            a3 = p.random_policy()
+            a3 = random.choice(pool_of_actions)
             r3, list_possible_next_states = simulator.simulate(s3, a3, "Monte-Carlo")
 
             G[s3.getHash(),a3] = r3
@@ -68,12 +70,13 @@ class MonteCarlo:
             #print(G)
 
             #TODO foreach s appearing in the episode do π ← greedy w.r.t Q0 end
+            #slide 136
 
-        #print(Q_function)
+        print(Q_function)
         #print(SA_counter)
 
 if __name__ == "__main__":
   print('testing monte-carlo')
   monte_carlo = MonteCarlo()
-  monte_carlo.run(100)
+  monte_carlo.run(1000)
   print('done')
