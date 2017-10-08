@@ -1,12 +1,16 @@
 import random
 
+ROOM_SIZE_X = 2
+ROOM_SIZE_Y = 2
+BATTERY_CAPACITY = 5
+
 class State:
 
     #class variable shared  by all instances
     # Setting the room size
-    sizeX = 2 #colonne
-    sizeY = 2 #line
-    battery_capacity = 5
+    sizeX = ROOM_SIZE_X  # colonne
+    sizeY = ROOM_SIZE_Y  # line
+    battery_capacity = BATTERY_CAPACITY
 
     def __init__(self, battery, posRobot, posBase, roomGrid):
         #initialisation through the passed state
@@ -25,6 +29,16 @@ class State:
         return [rand_int_x, rand_int_y]
 
     def is_the_same(self, other_state):
+        print(str(self))
+        print(str(other_state))
+        if self.battery == other_state.battery:
+            print("battery okay")
+        if self.posRobot == other_state.posRobot:
+            print("pos rob ok")
+        if self.posBase == other_state.posBase:
+            print("pos base ok")
+        if self.roomGrid == other_state.roomGrid:
+            print("rg ok")
         return self.battery == other_state.battery and self.posBase == other_state.posBase \
                and self.posRobot == other_state.posRobot and self.roomGrid == other_state.roomGrid
 
@@ -60,3 +74,21 @@ class State:
 
     def __str__(self):
         return "State: battery "+ str(self.battery)+ " robot "+ str(self.posRobot) +" base "+ str(self.posBase)+ " room "+ str(self.roomGrid)
+
+    def getHash(self):
+        full = []
+        for x in range(0, self.sizeX):
+            for y in range(0, self.sizeY):
+                full.append(self.roomGrid[y][x])
+        full.append(self.battery)
+        full.append(self.posRobot[0])
+        full.append(self.posRobot[1])
+        full.append(self.posBase[0])
+        full.append(self.posBase[1])
+        full.append(self.battery)
+        full_text = ""
+        for c in full:
+            full_text += str(c)
+        return full_text
+
+
