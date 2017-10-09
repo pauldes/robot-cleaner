@@ -1,7 +1,7 @@
 import random
 
 
-ROOM_SIZE_X = 3
+ROOM_SIZE_X = 2
 ROOM_SIZE_Y = 2
 BATTERY_CAPACITY = 5
 

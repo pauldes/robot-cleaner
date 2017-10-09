@@ -8,6 +8,7 @@ class DynamicProgramming:
     # actions dictionnary
     actions = ['MOVE_LEFT', 'MOVE_RIGHT', 'MOVE_UP', 'MOVE_DOWN', 'VACUUM', 'RECHARGE']
     states = []
+    initial_state = State(State.battery_capacity, [0, 0], [0, 0], [[1] * State.sizeX] * State.sizeY )
     states_hash = []
 
     mode = 1
@@ -127,6 +128,9 @@ class DynamicProgramming:
                 break
         print("performance: ", v_value)
         self.policy.show_policy()
+        index_state_initial = self.find_index_of_new_state(self.initial_state)
+        v_initial = v_value[index_state_initial]
+        print("performance initial DP : ", v_initial)
 
 
 if __name__ == "__main__":

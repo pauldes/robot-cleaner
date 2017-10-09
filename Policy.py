@@ -19,6 +19,20 @@ class Policy:
         if not exist:
             self.mappingList.append([hash, action])
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     def state_already_exists(self,new_state):
         for pol in self.mappingList:
             return new_state in pol
