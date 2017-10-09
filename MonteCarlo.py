@@ -5,15 +5,10 @@ import random
 from Simulator import pool_of_actions
 import copy
 
-
-
-
 class MonteCarlo:
 
     epsilon = 0.01
     gama = 0.99
-
-
 
     def run(self, limit):
 
@@ -38,9 +33,13 @@ class MonteCarlo:
             G = {}
 
             # LENGTH-3 EPISODES
+            # #TODO more length
 
             # We choose randomly s1
-            s1.pick_a_random_state()
+            #s1.pick_a_random_state()
+            #
+            #NOW we choose always the same s1
+            s1 = State.State(5, [0,0], [0,0], [[1,1,1],[1,1,1]])
             s1copy = copy.deepcopy(s1)
             hash_s1 = s1.getHash()
             if random_number > self.epsilon :
@@ -63,6 +62,7 @@ class MonteCarlo:
                 SA_counter[hash_s1,a1] = 1
                 Q_function[hash_s1,a1] = r1 +0.0
 
+
             # We choose randomly s2 within the possible new states
             s2 = random.choice(list_possible_next_states)
             s2copy = copy.deepcopy(s2)
@@ -83,6 +83,8 @@ class MonteCarlo:
             else:
                 SA_counter[hash_s2,a2] = 1
                 Q_function[hash_s2,a2] = r2 +0.0
+
+
 
             # We choose randomly s3 within the possible new states
             s3 = random.choice(list_possible_next_states)
@@ -105,6 +107,8 @@ class MonteCarlo:
                 SA_counter[hash_s3,a3] = 1
                 Q_function[hash_s3,a3] = r3 +0.0
 
+
+
             #print(G)
 
             # Getting the performance
@@ -120,8 +124,9 @@ class MonteCarlo:
                     if r > r_max:
                         r_max = r
                         best_action = a
-            print(best_action)
+            #print(best_action)
             PI_policy.add_optimized_policy(s1copy, best_action)
+
 
             # Getting the best action for s2
             r_max2 = -1000
@@ -133,10 +138,12 @@ class MonteCarlo:
                         if r > r_max2:
                             r_max2 = r
                             best_action2 = a
-                print(best_action2)
+                #print(best_action2)
                 PI_policy.add_optimized_policy(s2copy, best_action2)
 
-            # Getting the best action for s1
+
+
+            # Getting the best action for s3
             r_max3 = -1000
             best_action3 = ""
 
@@ -146,26 +153,42 @@ class MonteCarlo:
                         if r > r_max3:
                             r_max3 = r
                             best_action3 = a
-                print(best_action3)
+                #print(best_action3)
                 PI_policy.add_optimized_policy(s3copy, best_action3)
 
-            # Improving the policy
 
 
 
-            PI_policy.show_policy()
+
+            #PI_policy.show_policy()
 
                 #slide 136
 
-            print('Q-function built with '+str(len(Q_function))+ ' different tuples (s,a)')
-            print(Q_function)
-        print(list_perf)
+            #print('Q-function built with '+str(len(Q_function))+ ' different tuples (s,a)')
+            #print(Q_function)
+            #
+        #print(list_perf)
 
+        shortened_list_perf = []
+        shortened_list_perf.append(0)
+        MAX_COUNTER=10
+        counter=0
+        n=0
+        # Regroup every 100 items of the list
+        for perf in list_perf:
+            if(counter>MAX_COUNTER):
+                counter=0
+                n+=1
+                shortened_list_perf.append(perf)
+            else:
+                counter +=1
+                shortened_list_perf[n] += perf
 
-            #print(SA_counter)
+        print(shortened_list_perf)
+
 
 if __name__ == "__main__":
   print('testing monte-carlo')
   monte_carlo = MonteCarlo()
-  monte_carlo.run(5)
+  monte_carlo.run(5000)
   print('done')
