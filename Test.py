@@ -1,8 +1,10 @@
 import State
 import Policy
+import Simulator
 
 class Test :
-    def test_policy(self,p):
+    def test_policy(self):
+        p = Policy.Policy()
         state = State.State(5, [0, 0], [0, 0], [[1, 1, 1], [1, 1, 1]])
         action = "VACUUM"
 
@@ -41,6 +43,17 @@ class Test :
         else:
             print("Find the action : Fail")
 
+    def test_simulator(self):
+        state = State.State(5, [0, 0], [0, 0], [[1, 1, 1], [1, 1, 1]])
+        action = "VACUUM"
+        simulator = Simulator.Simulator()
+
+        # Test next computing states
+        reward,next_state = simulator.simulate(state, action, "Monte-Carlo")
+        if(next_state[0].battery == state.battery - 1):
+            print("Next computing states : Success")
+        else:
+            print("Next computing states : Fail")
 
 
 
@@ -48,10 +61,14 @@ class Test :
 
 
 
-if __name__ == "__main__":
-    p = Policy.Policy()
+
+
+
+
+if __name__ == "__main__" :
     test = Test()
-    test.test_policy(p)
+    test.test_policy()
+    test.test_simulator()
 
 
 
