@@ -73,7 +73,10 @@ def compute_next_states(state, action):
     elif action == action_recharge and batteryFull(state) and robotOnBase(state):
         next_state.battery = state.battery
     elif action != action_recharge and state.battery > 0:
+        print("Got here")
+        print("The old battery was ", state.battery)
         next_state.battery = state.battery-1
+        print("The new battery is ", next_state.battery)
 
     # Position
     if action == action_move_left and not wallLeft(state) and state.battery > 0:

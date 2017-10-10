@@ -49,11 +49,13 @@ class Test :
         simulator = Simulator.Simulator()
 
         # Test next computing states
-        reward,next_state = simulator.simulate(state, action, "Monte-Carlo")
+        reward, next_state = simulator.simulate(state, action, "Monte-Carlo")
+
         if(next_state[0].battery == state.battery - 1):
-            print("Next computing states : Success")
+            print("Next computing states - Battery : Success")
         else:
-            print("Next computing states : Fail")
+            print("Next computing states - Battery : Fail")
+
 
 
 
