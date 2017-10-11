@@ -43,7 +43,7 @@ class MonteCarlo:
             s1copy = copy.deepcopy(s1)
             hash_s1 = s1.getHash()
             if random_number > self.epsilon :
-                if(PI_policy.state_already_exists(s1)):
+                if(PI_policy.state_already_exists(s1.getHash())):
                     a1 = PI_policy.find_the_action(s1)
                 else:
                     a1 = random.choice(pool_of_actions)
@@ -68,7 +68,7 @@ class MonteCarlo:
             s2copy = copy.deepcopy(s2)
             hash_s2 = s2.getHash()
             if random_number > self.epsilon :
-                if (PI_policy.state_already_exists(s2)):
+                if (PI_policy.state_already_exists(s2.getHash())):
                     a2 = PI_policy.find_the_action(s2)
                 else:
                     a2 = random.choice(pool_of_actions)
@@ -91,7 +91,7 @@ class MonteCarlo:
             s3copy = copy.deepcopy(s3)
             hash_s3 = s3.getHash()
             if random_number > self.epsilon:
-                if (PI_policy.state_already_exists(s3)):
+                if (PI_policy.state_already_exists(s3.getHash())):
                     a3 = PI_policy.find_the_action(s3)
                 else:
                     a3 = random.choice(pool_of_actions)
@@ -190,5 +190,5 @@ class MonteCarlo:
 if __name__ == "__main__":
   print('testing monte-carlo')
   monte_carlo = MonteCarlo()
-  monte_carlo.run(5000)
+  monte_carlo.run(10000)
   print('done')

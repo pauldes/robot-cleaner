@@ -10,7 +10,6 @@ class Test :
 
         # Adding a rule in the policy
         p.add_optimized_policy(state,action)
-        p.show_policy()
 
         test_list = []
         test_list.append([state.getHash(),action])
@@ -32,7 +31,7 @@ class Test :
             print("Changing a rule in the policy : Fail")
 
         # State already exist
-        if p.state_already_exists(state):
+        if p.state_already_exists(state.getHash()):
             print("State already exists : Success")
         else:
             print("State already exists : Fail")
@@ -48,18 +47,52 @@ class Test :
         action = "VACUUM"
         simulator = Simulator.Simulator()
 
-        # Test next computing states
+        # Test next computing states - first test
+        battery = state.battery
+        posX = state.posRobot[0]
+        posY = state.posRobot[1]
         reward, next_state = simulator.simulate(state, action, "Monte-Carlo")
 
-        if(next_state[0].battery == state.battery - 1):
+        if(next_state[0].battery == battery - 1):
             print("Next computing states - Battery : Success")
         else:
             print("Next computing states - Battery : Fail")
 
+        if(next_state[0].posRobot[0] == posX and next_state[0].posRobot[1] == posY):
+            print("Next computing states - Position : Success")
+        else:
+            print("Next computing states - Position : Fail")
+
+        if(Simulator.currentCellIsDirty(next_state[0])):
+            print("Next computing states - CurrentCell : Fail")
+        else:
+            print("Next computing states - CurrentCell : Success")
+
+        state = State.State(5, [0, 0], [0, 0], [[1, 1, 1], [1, 1, 1]])
+        action = "MOVE_RIGHT"
+
+        posX = state.posRobot[0]
+        posY = state.posRobot[1]
+
+        reward, next_state = simulator.simulate(state, action, "Monte-Carlo")
+
+        if(next_state[0].battery == battery - 1):
+            print("Next computing states 2 - Battery  : Success")
+        else:
+            print("Next computing states 2 - Battery : Fail")
 
 
 
 
+        if(Simulator.currentCellIsDirty(next_state[0])):
+            print("Next computing states 2 - CurrentCell : Success")
+        else:
+            print("Next computing states 2 - CurrentCell : Fail")
+
+        if(next_state[0].posRobot[0] == posX and next_state[0].posRobot[1] == posY):
+            print("Next computing states 2 - Position : Fail ")
+        else:
+            print("Next computing states 2 - Position : Success")
 
 
 
