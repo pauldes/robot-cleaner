@@ -96,7 +96,7 @@ def compute_next_states(state, action):
     elif action == action_vacuum and not currentCellIsDirty(state) and state.battery > 0 :
         next_state.roomGrid[state.posRobot[1]][state.posRobot[0]] = 0
         # so.. nothing happens
-
+    #print(next_state)
     next_possible_states.append([next_state, 1])
     # Only 1 for now
 

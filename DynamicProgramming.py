@@ -107,7 +107,7 @@ class DynamicProgramming:
 
                 # for each action
                 for ind_a, a in enumerate(pool_of_actions):
-                    r_s_a, p_sPrime_knowingSandA, s_prime = sim.simulate(s, a, 'Dynamic Programming')
+                    r_s_a, p_sPrime_knowingSandA, s_prime = sim.simulate(s.copy(), a, 'Dynamic Programming')
                     # warning p_sPrime and s_prime = lists
                     # do sum
                     if not p_sPrime_knowingSandA and not s_prime:

@@ -48,29 +48,30 @@ class Policy:
         # return the best action or arbitrary action if first times
         hash = state.getHash()
         exist = False
-        for element in self.mappingList:
+        for element in self.qLearning_policy:
             if hash in element:
                 best_action, q_value_max = self.get_best_action(element[1])
                 exist = True
-                return best_action, q_value_max
+                return best_action, element[1]
                 break
         if not exist:
             q_s_a = [0] * len(pool_of_actions)
-            self.mappingList.append([hash, q_s_a])
-            return pool_of_actions[0], 0.0
+            self.qLearning_policy.append([hash, q_s_a])
+            ind = random.randint(1, len(pool_of_actions)-1)
+            return pool_of_actions[ind], q_s_a
             # arbitrary if all the value are equal the argmax will be move_left (first action in pool action)
 
     def update_optimized_policy(self, state, action, q_value):
         hash = state.getHash()
         exist = False
-        for element in self.mappingList:
+        for element in self.qLearning_policy:
             if hash in element:
                 ind_action = pool_of_actions.index(action)
                 element[1][ind_action] = q_value
                 exist = True
                 break
         if not exist:
-            print("issue if updating then the state should exist in the dictionnary" )
+            print("issue if updating then the state should exist in the dictionnary", hash )
 
     def get_best_action(self, q_s_a):
         indMax = 0
@@ -81,3 +82,11 @@ class Policy:
                 indMax = i
 
         return pool_of_actions[indMax], valueMax
+
+    def get_performance(self, init):
+        for element in self.qLearning_policy:
+            if init.getHash() in element:
+                best_action, perf = self.get_best_action(element[1])
+                return perf
+            else:
+                print('issue')
