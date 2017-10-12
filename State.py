@@ -55,7 +55,6 @@ class State:
         state_copy.roomGrid = self.roomGrid
         return state_copy
 
-
     #Pretty-printing the state
     def pretty_print(self):
         # Note: only for 3*2 matrix (for now...)
@@ -90,4 +89,3 @@ class State:
         for c in full:
           full_text+=str(c)
         return full_text
-
