@@ -56,10 +56,11 @@ def robotOnBase(s):
   return s.posRobot[0] == s.posBase[0] and s.posRobot[1] == s.posBase[1]
 
 def roomClean(s):
-  everything_clean = True
   for ligne in s.roomGrid:
     for case in ligne:
-      everything_clean = case==0
+      if(case==1):
+        return False
+  return True
 
 # Apply an action to a state and get the possible next states with associate probabilities
 def compute_next_states(state, action):
@@ -141,11 +142,11 @@ def compute_reward(s, action):
     #Ending points
 
     if(robotOnBase(s) and roomClean(s)):
-      reward += 100
+      reward += 200
     elif(roomClean(s)):
-      reward += 60
+      reward += 100
     elif(batteryEmpty(s) and roomClean(s)==False and robotOnBase(s)==False):
-      reward += -100
+      reward += -200
 
     # Charging off base
     if not robotOnBase(s):
