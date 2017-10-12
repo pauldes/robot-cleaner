@@ -94,7 +94,13 @@ class Test :
         else:
             print("Next computing states 2 - Position : Success")
 
-
+    def test_copy(self):
+        s = State.State(5, [0, 0], [0, 0], [[1, 1, 1], [1, 1, 1]])
+        s_copy = s.copy()
+        if(s_copy.battery == s.battery and s_copy.posRobot == s.posRobot and s_copy.roomGrid == s.roomGrid):
+            print("Copy : Success")
+        else:
+            print("Copy : Fail")
 
 
 
@@ -104,7 +110,4 @@ if __name__ == "__main__" :
     test = Test()
     test.test_policy()
     test.test_simulator()
-
-
-
-
+    test.test_copy()
