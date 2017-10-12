@@ -4,8 +4,8 @@ from DynamicProgramming import DynamicProgramming
 
 if __name__ == "__main__":
 
-  EPISODE_LENGTH = 10
-  INFINITE_LIMIT = 100
+  EPISODE_LENGTH = 50
+  INFINITE_LIMIT = 200
 
   print('Computing Dynamic Programming...')
   d_p = DynamicProgramming()
@@ -19,7 +19,7 @@ if __name__ == "__main__":
 
   print('Computing Monte-Carlo...')
   monte_carlo = MonteCarlo()
-  monte_carlo_performances = monte_carlo.run(INFINITE_LIMIT,EPISODE_LENGTH)
+  monte_carlo_performances =  monte_carlo.run(INFINITE_LIMIT,EPISODE_LENGTH)
   print('done')
 
   print('Drawing graph...')
