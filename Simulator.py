@@ -19,11 +19,11 @@ action_recharge = "RECHARGE"
 pool_of_actions = [action_move_left,action_move_right,action_move_up,action_move_down,action_vacuum,action_recharge]
 
 # Rewards
-reward_cell_clean =    {action_vacuum : -5,  action_recharge : 0,   action_move_left : 0,  action_move_right : 0,  action_move_up : 0,  action_move_down : 0}
-reward_cell_dirty =    {action_vacuum : 5,   action_recharge : 0,   action_move_left : 0,  action_move_right : 0,  action_move_up : 0,  action_move_down : 0}
+reward_cell_clean =    {action_vacuum : -10,  action_recharge : 0,   action_move_left : 0,  action_move_right : 0,  action_move_up : 0,  action_move_down : 0}
+reward_cell_dirty =    {action_vacuum : 30,   action_recharge : 0,   action_move_left : 0,  action_move_right : 0,  action_move_up : 0,  action_move_down : 0}
 reward_battery_empty = {action_vacuum : -20, action_recharge : 10,  action_move_left : -20, action_move_right : -20, action_move_up : -20, action_move_down : -20}
 reward_battery_full =  {action_vacuum : -1,  action_recharge : -10, action_move_left : -1,  action_move_right : -1,  action_move_up : -1,  action_move_down : -1}
-reward_battery_inter = {action_vacuum : -1,  action_recharge : 0,   action_move_left : 0,  action_move_right : 0,  action_move_up : 0,  action_move_down : 0 }
+reward_battery_inter = {action_vacuum : -1,  action_recharge : 5,   action_move_left : -1,  action_move_right : -1,  action_move_up : -1,  action_move_down : -1 }
 reward_wall_left =     {action_vacuum : 0,  action_recharge : 0, action_move_left : -10, action_move_right : 0,  action_move_up : 0,  action_move_down : 0}
 reward_wall_right =    {action_vacuum : 0,  action_recharge : 0, action_move_left : 0,  action_move_right : -10, action_move_up : 0,  action_move_down : 0}
 reward_wall_top =      {action_vacuum : 0,  action_recharge : 0, action_move_left : 0,  action_move_right : 0,  action_move_up : -10, action_move_down : 0}
@@ -66,7 +66,7 @@ def roomClean(s):
 def compute_next_states(state, action):
 
     next_possible_states = []
-    next_state = state
+    next_state = state.copy()
 
     # Battery
     if action == action_recharge and not batteryFull(state) and robotOnBase(state):
@@ -109,6 +109,7 @@ def compute_next_states(state, action):
 # Compute the reward for a State s and an action
 def compute_reward(s, action):
     reward = 0
+
     # Wall configuration
     if wallLeft(s):
         # print("There is a Wall on the left")

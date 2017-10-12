@@ -4,9 +4,10 @@ from DynamicProgramming import DynamicProgramming
 
 if __name__ == "__main__":
 
-  EPISODE_LENGTH = 50
-  INFINITE_LIMIT = 200
+  EPISODE_LENGTH = 36
+  INFINITE_LIMIT = 1000
 
+  '''
   print('Computing Dynamic Programming...')
   d_p = DynamicProgramming()
   d_p_performance = d_p.main()
@@ -16,6 +17,7 @@ if __name__ == "__main__":
     d_p_performances.append(None)
   d_p_performances.append(d_p_performance)
   print('done')
+  '''
 
   print('Computing Monte-Carlo...')
   monte_carlo = MonteCarlo()
@@ -30,7 +32,7 @@ if __name__ == "__main__":
   graph.x_labels = map(str, range(0,INFINITE_LIMIT))
 
   graph.add('Monte-Carlo',monte_carlo_performances)
-  graph.add('Dynamic Programming',d_p_performances)
+  #graph.add('Dynamic Programming',d_p_performances)
 
   graph.render_to_file('graph_rendering.svg')
   print('done')

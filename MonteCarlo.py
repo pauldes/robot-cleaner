@@ -29,7 +29,6 @@ class MonteCarlo:
     def run(self, limit, episode_length):
 
         list_perf = []
-        s0 = State.State(5, [0,0], [0,0], [[1,1,1],[1,1,1]])
         PI_policy = Policy.Policy()
         simulator = Simulator.Simulator()
         # Average reward for a tuple (s,a)
@@ -46,7 +45,7 @@ class MonteCarlo:
 
             # First state s0 : everything is dirty
             list_possible_next_states = []
-            s0 = State.State(5, [0,0], [0,0], [[1,1,1],[1,1,1]])
+            s0 = State.State(State.BATTERY_CAPACITY, [0,0], [0,0], [[1,1,1],[1,1,1]])
             list_possible_next_states.append(s0)
 
             # Next scenarios of the episode are computed in a loop
@@ -68,8 +67,15 @@ class MonteCarlo:
                 else:
                     a2 = random.choice(pool_of_actions)
 
+
+                #s2copy.pretty_print()
+                #print(a2)
+
                 r2, list_possible_next_states = simulator.simulate(s2, a2, "Monte-Carlo")
                 perf = perf + r2
+
+                if r2>=100:
+                    print('BEST CASE')
 
                 if(hash_s2,a2) in SA_counter:
                     Q_function[hash_s2,a2] = (r2 + (SA_counter[hash_s2,a2])*Q_function[hash_s2,a2]) / (SA_counter[hash_s2,a2]+1.0)
@@ -92,13 +98,9 @@ class MonteCarlo:
                                 best_action2 = a
                     PI_policy.add_optimized_policy(s2copy, best_action2)
 
-                #print(a2)
-                #s2copy.pretty_print()
-
-
                 #print(r)
                 if r2>=100:
-                    #print('BEST CASE')
+                    print('BEST CASE')
                     break
                 elif r2<=(-100):
                     #print('BREAK, WORST CASE')
@@ -114,6 +116,6 @@ class MonteCarlo:
 if __name__ == "__main__":
   print('testing monte-carlo')
   monte_carlo = MonteCarlo()
-  print  (monte_carlo.run(5,10))
+  print  (monte_carlo.run(1000,36))
   print('done')
 
