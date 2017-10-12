@@ -25,9 +25,8 @@ class MonteCarlo:
 
     epsilon = 0.5
     gama = 0.5
-    EPISODE_LENGTH = 500
 
-    def run(self, limit):
+    def run(self, limit, episode_length):
 
         list_perf = []
         s0 = State.State(5, [0,0], [0,0], [[1,1,1],[1,1,1]])
@@ -52,7 +51,7 @@ class MonteCarlo:
 
             # Next scenarios of the episode are computed in a loop
 
-            for m in range(0,self.EPISODE_LENGTH):
+            for m in range(0,episode_length):
 
                 s2 = random.choice(list_possible_next_states)
                 s2copy = s2.copy()
@@ -102,11 +101,13 @@ class MonteCarlo:
             #print('ENDED with '+a2)
             list_perf.append(perf)
 
-        print(sorted(list_perf))
+        print(list_perf)
+
+        return list_perf
 
 if __name__ == "__main__":
   print('testing monte-carlo')
   monte_carlo = MonteCarlo()
-  monte_carlo.run(100)
+  print  (monte_carlo.run(100,500))
   print('done')
 
