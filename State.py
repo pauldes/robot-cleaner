@@ -49,9 +49,10 @@ class State:
         #self.pretty_print()
 
     def copy(self):
-        state_copy = State(0, [0, 0], [0, 0], [[0, 1, 0], [1, 0, 1]])
+        state_copy = State(0, [0, 0], [0, 0], [[0, 0], [1,  1]])
         state_copy.battery = self.battery
         state_copy.posRobot = self.posRobot
+        state_copy.posBase = self.posBase
         state_copy.roomGrid = self.roomGrid
         return state_copy
 

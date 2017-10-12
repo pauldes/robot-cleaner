@@ -99,6 +99,7 @@ def compute_next_states(state, action):
         # so.. nothing happens
 
     next_possible_states.append([next_state, 1])
+
     # Only 1 for now
 
     #  testing:

@@ -9,6 +9,8 @@ class DynamicProgramming:
     actions = ['MOVE_LEFT', 'MOVE_RIGHT', 'MOVE_UP', 'MOVE_DOWN', 'VACUUM', 'RECHARGE']
     states = []
     initial_state = State(State.battery_capacity, [0, 0], [0, 0], [[1] * State.sizeX] * State.sizeY )
+
+
     states_hash = []
 
     mode = 1
@@ -103,11 +105,14 @@ class DynamicProgramming:
             for ind, s in enumerate(self.states):  # warning it's not in the order we thought
                 # list with q_value depending on s and a with our model impossible \
                 # to have 2 states from one state and one action
-                q_s_a = [0]*len(self.actions)
+                state_to_test = s.copy();
 
+                q_s_a = [0]*len(self.actions)
                 # for each action
                 for ind_a, a in enumerate(self.actions):
-                    r_s_a, p_sPrime_knowingSandA, s_prime = sim.simulate(s, a, 'Dynamic Programming')
+
+                    r_s_a, p_sPrime_knowingSandA, s_prime = sim.simulate(s.copy(), a, 'Dynamic Programming')
+
                     # warning p_sPrime and s_prime = lists
                     # do sum
                     if not p_sPrime_knowingSandA and not s_prime:
@@ -119,9 +124,10 @@ class DynamicProgramming:
                             if ind_s_prime is None:
                                 break
                             q_s_a[ind_a] += self.discounted_factor * p * v_value_prime[ind_s_prime]
-                        #print(q_s_a)
+
                 # compute max value
                 ind_a_max, v_value[ind] = self.max_perf(q_s_a)
+
                 self.policy.add_optimized_policy(s, self.actions[ind_a_max])
 
             if self.infinite_normal(v_value, v_value_prime) <= self.epsilon:
