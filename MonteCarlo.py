@@ -101,8 +101,6 @@ class MonteCarlo:
             #print('ENDED with '+a2)
             list_perf.append(perf)
 
-        print(list_perf)
-
         return list_perf
 
 if __name__ == "__main__":
