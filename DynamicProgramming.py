@@ -96,7 +96,7 @@ class DynamicProgramming:
     def main(self):
         sim = Simulator()
         self.generate_all_states()
-        print(len(self.states))
+        #print(len(self.states))
 
         v_value = [0] * len(self.states)  # the value at index i is the performance for the state i in states
         # v_value_prime = [0]*len(self.states)
@@ -132,13 +132,16 @@ class DynamicProgramming:
 
             if self.infinite_normal(v_value, v_value_prime) <= self.epsilon:
                 break
-        print("performance: ", v_value)
-        self.policy.show_policy()
+        #print("performance: ", v_value)
+        #self.policy.show_policy()
         index_state_initial = self.find_index_of_new_state(self.initial_state)
         v_initial = v_value[index_state_initial]
-        print("performance initial DP : ", v_initial)
+        #print("performance initial DP : ", v_initial)
+
+        return v_initial
 
 
 if __name__ == "__main__":
     dp = DynamicProgramming()
-    dp.main()
+    performance_initial = dp.main()
+    print("performance initiale DP: "+str(performance_initial))
