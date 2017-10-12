@@ -1,4 +1,3 @@
-
 import random
 from State import State
 
@@ -143,7 +142,9 @@ def compute_reward(s, action):
 
     if(robotOnBase(s) and roomClean(s)):
       reward += 100
-    if(batteryEmpty(s) and roomClean(s)==False):
+    elif(roomClean(s)):
+      reward += 60
+    elif(batteryEmpty(s) and roomClean(s)==False and robotOnBase(s)==False):
       reward += -100
 
     # Charging off base

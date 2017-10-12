@@ -20,19 +20,6 @@ class Policy:
             self.mappingList.append([hash, action])
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     def state_already_exists(self,new_state):
         for pol in self.mappingList:
             return new_state in pol
@@ -48,7 +35,7 @@ class Policy:
     def find_the_action(self, state):
         hash_state = state.getHash()
         for element in self.mappingList:
-            if element[0].getHash() == hash_state:
+            if element[0] == hash_state:
                 return element[1]
 
 
