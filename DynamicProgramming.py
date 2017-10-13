@@ -128,4 +128,8 @@ class DynamicProgramming:
 
 if __name__ == "__main__":
     dp = DynamicProgramming()
+<<<<<<< HEAD
     dp.main()
+=======
+    dp.main()
+>>>>>>> origin/master
