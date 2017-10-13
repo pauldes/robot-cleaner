@@ -70,18 +70,21 @@ def compute_next_states(state, action):
 
     # Battery
     if action == action_recharge and not batteryFull(state) and robotOnBase(state):
-        next_state.battery = state.battery+1
+        next_state.battery = state.battery + 1
     elif action == action_recharge and batteryFull(state) and robotOnBase(state):
         next_state.battery = state.battery
     elif action != action_recharge and state.battery > 0:
-        next_state.battery = state.battery-1
+        next_state.battery = state.battery - 1
+
 
     # Position
     if action == action_move_left and not wallLeft(state) and state.battery > 0:
         next_state.posRobot[0] = state.posRobot[0] - 1
 
     if action == action_move_right and not wallRight(state) and state.battery > 0 :
+        # print(str(next_state), str(state))
         next_state.posRobot[0] = state.posRobot[0] + 1
+        # print(str(next_state), str(state))
 
     if action == action_move_up and not wallTop(state) and state.battery > 0 :
         next_state.posRobot[1] = state.posRobot[1] - 1

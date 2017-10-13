@@ -49,6 +49,7 @@ class State:
         #self.pretty_print()
 
     def copy(self):
+
         '''
         state_copy = State(BATTERY_CAPACITY, [0,0], [0,0], [[1,1,1],[1,1,1]])
         state_copy.battery = self.battery
@@ -93,4 +94,3 @@ class State:
         for c in full:
           full_text+=str(c)
         return full_text
-
