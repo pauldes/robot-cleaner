@@ -9,8 +9,6 @@ class DynamicProgramming:
     # actions dictionnary
     states = []
     initial_state = State(State.battery_capacity, [0, 0], [0, 0], [[1] * State.sizeX] * State.sizeY )
-
-
     states_hash = []
 
     mode = 1
@@ -55,7 +53,7 @@ class DynamicProgramming:
 
 
     def generate_all_states(self):
-        for b in range(0, 6):
+        for b in range(0, State.battery_capacity+1):
             for prx in range(0, State.sizeX):
                 for pry in range(0, State.sizeY):
                     for pbx in range(0, State.sizeX):
@@ -96,7 +94,7 @@ class DynamicProgramming:
     def main(self):
         sim = Simulator()
         self.generate_all_states()
-        #print(len(self.states))
+        print(len(self.states))
 
         v_value = [-100] * len(self.states)  # the value at index i is the performance for the state i in states
         v_value_prime = [+100]*len(self.states)
@@ -104,7 +102,6 @@ class DynamicProgramming:
 
         while self.infinite_normal(v_value, v_value_prime) >= self.epsilon:
             v_value_prime = v_value
-
             for ind_s, s in enumerate(self.states):
 
                 q_s_a = [0]*len(pool_of_actions)
@@ -113,28 +110,22 @@ class DynamicProgramming:
                     r_s_a, p_sPrime_knowingSandA, s_prime = sim.simulate(s.copy(), a, 'Dynamic Programming')
                     q_s_a[ind_a] = r_s_a
                     if p_sPrime_knowingSandA and s_prime and len(p_sPrime_knowingSandA) == len(s_prime):
-
                         for i, p in enumerate(p_sPrime_knowingSandA):
                             ind_s_prime = self.find_index_of_new_state(s_prime[i])
                             if ind_s_prime is None:
                                 break
                             q_s_a[ind_a] += self.discounted_factor * p * v_value_prime[ind_s_prime]
-
                 # compute max value
                 ind_a_max, v_value[ind_s] = self.max_perf(q_s_a)
                 self.policy.add_optimized_policy(s.copy(), pool_of_actions[ind_a_max])
 
         print("performance: ", v_value)
         self.policy.show_policy()
-
         index_state_initial = self.find_index_of_new_state(self.initial_state)
         v_initial = v_value[index_state_initial]
-        #print("performance initial DP : ", v_initial)
-
-        return v_initial
+        print("performance initial DP : ", v_initial)
 
 
 if __name__ == "__main__":
     dp = DynamicProgramming()
-    performance_initial = dp.main()
-    print("performance initiale DP: "+str(performance_initial))
+    dp.main()

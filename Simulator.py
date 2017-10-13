@@ -115,33 +115,24 @@ def compute_reward(s, action):
 
     # Wall configuration
     if wallLeft(s):
-        # print("There is a Wall on the left")
         reward += reward_wall_left[action]
     if wallRight(s):
-        # print("There is a Wall on the right")
         reward += reward_wall_right[action]
     if wallTop(s):
-        # print("There is a Wall on the top")
         reward += reward_wall_top[action]
     if wallBottom(s):
-        # print("There is a Wall on the bottom")
         reward += reward_wall_bottom[action]
     # Battery configuration
     if batteryEmpty(s):
-        # print("The battery is empty")
         reward += reward_battery_empty[action]
     if batteryFull(s):
-        # print("The battery is full")
         reward += reward_battery_full[action]
     if not (batteryFull(s) or batteryEmpty(s)):
-        # print('The battery is intermediate')
         reward += reward_battery_inter[action]
     # Current cell configuration
     if currentCellIsDirty(s):
-        # print('The current cell is dirty as fuck')
         reward += reward_cell_dirty[action]
     else:
-        # print('The current cell is clean')
         reward += reward_cell_clean[action]
 
     #Ending points

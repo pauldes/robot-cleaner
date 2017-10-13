@@ -22,11 +22,12 @@ def regroupListBySums(list,size_of_sums):
 
 class MonteCarlo:
 
-    epsilon = 0.5
-    gama = 0.9
+    epsilon = 0.8
+    gama = 0.99
 
     def run(self, limit, episode_length):
 
+        starting_epsilon = self.epsilon
         list_perf = []
         PI_policy = Policy.Policy()
         simulator = Simulator.Simulator()
@@ -41,6 +42,10 @@ class MonteCarlo:
         Q_function = {}
 
         for n in range(0,limit):
+
+            self.epsilon = self.epsilon - (starting_epsilon/limit)
+            print('epsilon:'+str(self.epsilon))
+
             print("Boucle "+str(n)+" sur "+str(limit))
             perf = 0
 
@@ -125,6 +130,6 @@ class MonteCarlo:
 if __name__ == "__main__":
   print('testing monte-carlo')
   monte_carlo = MonteCarlo()
-  print  (monte_carlo.run(1,10))
+  print  (monte_carlo.run(100,10))
   print('done')
 
