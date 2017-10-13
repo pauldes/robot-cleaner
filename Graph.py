@@ -4,8 +4,8 @@ from DynamicProgramming import DynamicProgramming
 
 if __name__ == "__main__":
 
-  EPISODE_LENGTH = 36
-  INFINITE_LIMIT = 1000
+  EPISODE_LENGTH = 15
+  INFINITE_LIMIT = 100
 
   '''
   print('Computing Dynamic Programming...')

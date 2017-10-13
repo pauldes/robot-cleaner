@@ -3,7 +3,6 @@ import Policy
 import State
 import random
 from Simulator import pool_of_actions
-import copy
 
 def regroupListBySums(list,size_of_sums):
         shortened_list = []
@@ -23,7 +22,7 @@ def regroupListBySums(list,size_of_sums):
 
 class MonteCarlo:
 
-    epsilon = 0.1
+    epsilon = 0.5
     gama = 0.9
 
     def run(self, limit, episode_length):
@@ -31,91 +30,101 @@ class MonteCarlo:
         list_perf = []
         PI_policy = Policy.Policy()
         simulator = Simulator.Simulator()
-        # Average reward for a tuple (s,a)
-        Q_function = {}
         # Number of times we have met a tuple (s,a)
         SA_counter = {}
         all_states_visited = []
         reward_per_s = {}
         previous_hash = ""
         hash_s2 = ""
+        reward_max_list=[]
+        # Average reward for a tuple (s,a)
+        Q_function = {}
 
         for n in range(0,limit):
+            print("Boucle "+str(n)+" sur "+str(limit))
             perf = 0
 
             # First state s0 : everything is dirty
             list_possible_next_states = []
             s0 = State.State(State.BATTERY_CAPACITY, [0,0], [0,0], [[1,1,1],[1,1,1]])
+            hash_s0 = s0.getHash()
             list_possible_next_states.append(s0)
 
-            # Next scenarios of the episode are computed in a loop
+            episode_scenarios = []
+
+            # GENERATE A FULL EPISODE
+            for m in range(0,episode_length):
+
+                # Choosing a state
+                current_state = random.choice(list_possible_next_states)
+
+                # Choosing an action
+                random_number = random.uniform(0, 1)
+                if random_number > self.epsilon :
+                    if (PI_policy.state_already_exists(current_state.getHash())):
+                        current_action = PI_policy.find_the_action(current_state)
+                    else:
+                        current_action = random.choice(pool_of_actions)
+                else:
+                    current_action = random.choice(pool_of_actions)
+
+                # Simulate reward
+                current_reward, list_possible_next_states = simulator.simulate(current_state.copy(), current_action, "Monte-Carlo")
+
+                # Add state, action, reward in the episode
+                episode_scenarios.append([current_state.copy(), current_action, current_reward])
+
+
+
+            # COMPUTE DATA
+
+            encountered_sa = []
 
             for m in range(0,episode_length):
 
-                s2 = random.choice(list_possible_next_states)
-                s2copy = s2.copy()
-                previous_hash = hash_s2
-                hash_s2 = s2.getHash()
 
-                random_number = random.uniform(0, 1)
+                s_hash = episode_scenarios[m][0].getHash()
+                action = episode_scenarios[m][1]
+                #print('m = '+str(m))
 
-                if random_number > self.epsilon :
-                    if (PI_policy.state_already_exists(s2.getHash())):
-                        a2 = PI_policy.find_the_action(s2)
+
+
+                if [s_hash,action] not in encountered_sa:
+                    encountered_sa.append([s_hash,action])
+                    sum_rewards = 0
+                    for n in range(m,episode_length):
+                        sum_rewards += episode_scenarios[n][2] * self.gama**(n-m)
+
+                    if(s_hash,action) in SA_counter:
+                        Q_function[s_hash,action] = (sum_rewards + (SA_counter[s_hash,action])*Q_function[s_hash,action]) / (SA_counter[s_hash,action]+1.0)
+                        SA_counter[s_hash,action] += 1
                     else:
-                        a2 = random.choice(pool_of_actions)
-                else:
-                    a2 = random.choice(pool_of_actions)
+                        SA_counter[s_hash,action] = 1
+                        Q_function[s_hash,action] = sum_rewards+0.0
 
+            for scenario in episode_scenarios:
+                reward_max = -1000
+                best_action = ""
+                for (s_hash,a),r in Q_function.items():
+                    if(s_hash == scenario[0].getHash()):
+                        if r > reward_max:
+                            reward_max = r
+                            best_action = a
+                PI_policy.add_optimized_policy(scenario[0].copy(), best_action)
 
-                #s2copy.pretty_print()
-                #print(a2)
-
-                r2, list_possible_next_states = simulator.simulate(s2, a2, "Monte-Carlo")
-                perf = perf + r2
-
-                if r2>=100:
-                    print('BEST CASE')
-
-                if(hash_s2,a2) in SA_counter:
-                    Q_function[hash_s2,a2] = (r2 + (SA_counter[hash_s2,a2])*Q_function[hash_s2,a2]) / (SA_counter[hash_s2,a2]+1.0)
-                    SA_counter[hash_s2,a2] += 1
-                else:
-                    SA_counter[hash_s2,a2] = 1
-                    Q_function[hash_s2,a2] = r2 +0.0
-
-                # Getting the best action for s2
-                r_max2 = -1000
-                best_action2 = ""
-
-                #Refresh policy with best action
-
-                if(hash_s2 != previous_hash):
-                    for (s,a),r in Q_function.items():
-                        if(s == hash_s2):
-                            if r > r_max2:
-                                r_max2 = r
-                                best_action2 = a
-                    PI_policy.add_optimized_policy(s2copy, best_action2)
-
-                #print(r)
-                if r2>=100:
-                    print('BEST CASE')
-                    break
-                elif r2<=(-100):
-                    #print('BREAK, WORST CASE')
-                    break
-
-            # Getting the performance
-            #s2copy.pretty_print()
-            #print('ENDED with '+a2)
+            perf = -1000
+            for (s_hash,a),r in Q_function.items():
+                if(s_hash == hash_s0):
+                    if r > perf:
+                        perf = r
             list_perf.append(perf)
 
         return list_perf
+        print(list_perf)
 
 if __name__ == "__main__":
   print('testing monte-carlo')
   monte_carlo = MonteCarlo()
-  print  (monte_carlo.run(1000,36))
+  print  (monte_carlo.run(1,10))
   print('done')
 
