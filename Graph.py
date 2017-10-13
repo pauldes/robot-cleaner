@@ -5,7 +5,7 @@ from DynamicProgramming import DynamicProgramming
 if __name__ == "__main__":
 
   EPISODE_LENGTH = 12
-  INFINITE_LIMIT = 1000
+  INFINITE_LIMIT = 500
 
 
   print('Computing Dynamic Programming...')
