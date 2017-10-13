@@ -1,9 +1,9 @@
 import random
+from copy import deepcopy
 
-
-ROOM_SIZE_X = 2
+ROOM_SIZE_X = 3
 ROOM_SIZE_Y = 2
-BATTERY_CAPACITY = 5
+BATTERY_CAPACITY = 12
 
 class State:
 
@@ -49,14 +49,16 @@ class State:
         #self.pretty_print()
 
     def copy(self):
-        return State(self.battery, self.posRobot, self.posBase, self.roomGrid)
 
-
-
-
-
-
-
+        '''
+        state_copy = State(BATTERY_CAPACITY, [0,0], [0,0], [[1,1,1],[1,1,1]])
+        state_copy.battery = self.battery
+        state_copy.posRobot = self.posRobot
+        state_copy.posBase = self.posBase
+        state_copy.roomGrid = self.roomGrid
+        return state_copy
+        '''
+        return deepcopy(self)
 
     #Pretty-printing the state
     def pretty_print(self):
@@ -81,11 +83,14 @@ class State:
         full = []
         for x in range(0, self.sizeX):
             for y in range(0, self.sizeY):
-                full.append(str(self.roomGrid[y][x]))
-        full.append(str(self.battery))
-        full.append(str(self.posRobot[0]))
-        full.append(str(self.posRobot[1]))
-        full.append(str(self.posBase[0]))
-        full.append(str(self.posBase[1]))
-
-        return "".join(full)
+                full.append(self.roomGrid[y][x])
+        full.append(self.battery)
+        full.append(self.posRobot[0])
+        full.append(self.posRobot[1])
+        full.append(self.posBase[0])
+        full.append(self.posBase[1])
+        full.append(self.battery)
+        full_text =""
+        for c in full:
+          full_text+=str(c)
+        return full_text

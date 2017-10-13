@@ -67,6 +67,7 @@ def compute_next_states(state, action):
 
     next_possible_states = []
     next_state = state.copy()
+
     # Battery
     if action == action_recharge and not batteryFull(state) and robotOnBase(state):
         next_state.battery = state.battery + 1
