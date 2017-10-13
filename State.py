@@ -49,11 +49,8 @@ class State:
         #self.pretty_print()
 
     def copy(self):
-        state_copy = State(0, [0, 0], [0, 0], [[0, 1, 0], [1, 0, 1]])
-        state_copy.battery = self.battery
-        state_copy.posRobot = self.posRobot
-        state_copy.roomGrid = self.roomGrid
-        return state_copy
+        return State(self.battery, self.posRobot, self.posBase, self.roomGrid)
+
 
 
 
@@ -84,14 +81,11 @@ class State:
         full = []
         for x in range(0, self.sizeX):
             for y in range(0, self.sizeY):
-                full.append(self.roomGrid[y][x])
-        full.append(self.battery)
-        full.append(self.posRobot[0])
-        full.append(self.posRobot[1])
-        full.append(self.posBase[0])
-        full.append(self.posBase[1])
-        full.append(self.battery)
-        full_text =""
-        for c in full:
-          full_text+=str(c)
-        return full_text
+                full.append(str(self.roomGrid[y][x]))
+        full.append(str(self.battery))
+        full.append(str(self.posRobot[0]))
+        full.append(str(self.posRobot[1]))
+        full.append(str(self.posBase[0]))
+        full.append(str(self.posBase[1]))
+
+        return "".join(full)

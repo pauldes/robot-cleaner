@@ -10,9 +10,9 @@ class QLearning:
     initial_state = State(State.battery_capacity, [0, 0], [0, 0], [[1] * State.sizeX] * State.sizeY )
     mode = 3
 
-    epsilon = 0.01
+    epsilon = 0.1
     alpha = 0.1
-    discounted_factor = 0.99
+    discounted_factor = 0.9
     policy = Policy()
 
     def choose_probabilistic_action(self, best_action, q_all_actions):
@@ -39,25 +39,28 @@ class QLearning:
 
     def main(self):
         self.policy.init_arbitrary_policy(self.initial_state)
+        print('performance qlearning :', self.policy.get_performance(self.initial_state))
         sim = Simulator()
 
-        for l in range(0, 1):
-            s = self.initial_state
-            while True:
+        for exp in range(0,6 ):
+            s = State(State.battery_capacity, [0, 0], [0, 0], [[1] * State.sizeX] * State.sizeY )
+            s_copy = s.copy()
+            for episode in range(0, 1000):
                 # action choose randomly depending on the distribution and best_action for the state and this policy
-                a_best, q_s = self.policy.epsilone_greedy(s)
+
+                a_best, q_s = self.policy.epsilone_greedy(s_copy)
 
                 a, q_s_a = self.choose_probabilistic_action(a_best, q_s)
-                #print('before', s.getHash(), 'action', a)
                 r_s_a, s_prime = sim.simulate(s.copy(), a, 'Temporal Differences')
+                sp_copy = s_prime[0].copy()
                 a_prime_best, q_s_prime = self.policy.epsilone_greedy(s_prime[0])
                 a_prime, q_s_prima_a_prime = self.choose_probabilistic_action(a_prime_best, q_s_prime)
                 delta = r_s_a + self.discounted_factor*q_s_prima_a_prime - q_s_a
                 # update value q_s_a
                 q_s_a += self.alpha*delta
-                self.policy.update_optimized_policy(s, a, q_s_a)
+                self.policy.update_optimized_policy(s_copy, a, q_s_a)
                 #print('state', s.getHash(),  ' q_s_a ', q_s_a)
-                s = s_prime[0].copy()
+                s = sp_copy
                 if (robotOnBase(s) and roomClean(s)) or roomClean(s) or (batteryEmpty(s) and not roomClean(s) and not robotOnBase(s)):
                     print('final state :', s.getHash())
                     break

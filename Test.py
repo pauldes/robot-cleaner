@@ -96,7 +96,11 @@ class Test :
 
     def test_copy(self):
         s = State.State(5, [0, 0], [0, 0], [[1, 1, 1], [1, 1, 1]])
+        print('hash s', s.getHash())
         s_copy = s.copy()
+        sim = Simulator.Simulator()
+        r, q = sim.simulate(s.copy(),'MOVE_RIGHT', 'Temporal Differences')
+        print('hash s', s.getHash())
         if(s_copy.battery == s.battery and s_copy.posRobot == s.posRobot and s_copy.roomGrid == s.roomGrid):
             print("Copy : Success")
         else:

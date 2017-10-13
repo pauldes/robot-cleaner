@@ -19,11 +19,11 @@ action_recharge = "RECHARGE"
 pool_of_actions = [action_move_left,action_move_right,action_move_up,action_move_down,action_vacuum,action_recharge]
 
 # Rewards
-reward_cell_clean =    {action_vacuum : -5,  action_recharge : 0,   action_move_left : 0,  action_move_right : 0,  action_move_up : 0,  action_move_down : 0}
-reward_cell_dirty =    {action_vacuum : 5,   action_recharge : 0,   action_move_left : 0,  action_move_right : 0,  action_move_up : 0,  action_move_down : 0}
+reward_cell_clean =    {action_vacuum : -10,  action_recharge : 0,   action_move_left : 0,  action_move_right : 0,  action_move_up : 0,  action_move_down : 0}
+reward_cell_dirty =    {action_vacuum : 30,   action_recharge : 0,   action_move_left : 0,  action_move_right : 0,  action_move_up : 0,  action_move_down : 0}
 reward_battery_empty = {action_vacuum : -20, action_recharge : 10,  action_move_left : -20, action_move_right : -20, action_move_up : -20, action_move_down : -20}
 reward_battery_full =  {action_vacuum : -1,  action_recharge : -10, action_move_left : -1,  action_move_right : -1,  action_move_up : -1,  action_move_down : -1}
-reward_battery_inter = {action_vacuum : -1,  action_recharge : 0,   action_move_left : 0,  action_move_right : 0,  action_move_up : 0,  action_move_down : 0 }
+reward_battery_inter = {action_vacuum : -1,  action_recharge : 5,   action_move_left : -1,  action_move_right : -1,  action_move_up : -1,  action_move_down : -1 }
 reward_wall_left =     {action_vacuum : 0,  action_recharge : 0, action_move_left : -10, action_move_right : 0,  action_move_up : 0,  action_move_down : 0}
 reward_wall_right =    {action_vacuum : 0,  action_recharge : 0, action_move_left : 0,  action_move_right : -10, action_move_up : 0,  action_move_down : 0}
 reward_wall_top =      {action_vacuum : 0,  action_recharge : 0, action_move_left : 0,  action_move_right : 0,  action_move_up : -10, action_move_down : 0}
@@ -56,31 +56,34 @@ def robotOnBase(s):
   return s.posRobot[0] == s.posBase[0] and s.posRobot[1] == s.posBase[1]
 
 def roomClean(s):
-  everything_clean = True
   for ligne in s.roomGrid:
     for case in ligne:
-      everything_clean = case==0
+      if(case==1):
+        return False
+  return True
 
 # Apply an action to a state and get the possible next states with associate probabilities
 def compute_next_states(state, action):
 
     next_possible_states = []
-    next_state = state
-
+    next_state = state.copy()
     # Battery
     if action == action_recharge and not batteryFull(state) and robotOnBase(state):
-        next_state.battery = state.battery+1
+        next_state.battery = state.battery + 1
     elif action == action_recharge and batteryFull(state) and robotOnBase(state):
         next_state.battery = state.battery
     elif action != action_recharge and state.battery > 0:
-        next_state.battery = state.battery-1
+        next_state.battery = state.battery - 1
+
 
     # Position
     if action == action_move_left and not wallLeft(state) and state.battery > 0:
         next_state.posRobot[0] = state.posRobot[0] - 1
 
     if action == action_move_right and not wallRight(state) and state.battery > 0 :
+        # print(str(next_state), str(state))
         next_state.posRobot[0] = state.posRobot[0] + 1
+        # print(str(next_state), str(state))
 
     if action == action_move_up and not wallTop(state) and state.battery > 0 :
         next_state.posRobot[1] = state.posRobot[1] - 1
@@ -96,8 +99,9 @@ def compute_next_states(state, action):
     elif action == action_vacuum and not currentCellIsDirty(state) and state.battery > 0 :
         next_state.roomGrid[state.posRobot[1]][state.posRobot[0]] = 0
         # so.. nothing happens
-    #print(next_state)
+
     next_possible_states.append([next_state, 1])
+
     # Only 1 for now
 
     #  testing:
@@ -107,6 +111,7 @@ def compute_next_states(state, action):
 # Compute the reward for a State s and an action
 def compute_reward(s, action):
     reward = 0
+
     # Wall configuration
     if wallLeft(s):
         # print("There is a Wall on the left")
@@ -141,11 +146,11 @@ def compute_reward(s, action):
     #Ending points
 
     if(robotOnBase(s) and roomClean(s)):
-      reward += 100
+      reward += 200
     elif(roomClean(s)):
-      reward += 60
+      reward += 100
     elif(batteryEmpty(s) and roomClean(s)==False and robotOnBase(s)==False):
-      reward += -100
+      reward += -200
 
     # Charging off base
     if not robotOnBase(s):

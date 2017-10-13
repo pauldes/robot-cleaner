@@ -65,13 +65,13 @@ class DynamicProgramming:
         if news_hash in self.states_hash:
             return self.states_hash.index(news_hash)
         else:
+            print("error : new state hash", news_hash, " not in states list")
             return None
 
 
 
     def pick_random_actions(self):
-        rand_index = random.randint(0, len(pool_of_actions)-1)
-        return pool_of_actions[rand_index]
+        return random.choice(pool_of_actions)
 
     def max_perf(self, q_s_a):
         indMax = 0
@@ -96,36 +96,29 @@ class DynamicProgramming:
         self.generate_all_states()
         print(len(self.states))
 
-        v_value = [0] * len(self.states)  # the value at index i is the performance for the state i in states
-        # v_value_prime = [0]*len(self.states)
-        while True:
-            v_value_prime = v_value
-            for ind, s in enumerate(self.states):  # warning it's not in the order we thought
-                # list with q_value depending on s and a with our model impossible \
-                # to have 2 states from one state and one action
-                q_s_a = [0]*len(pool_of_actions)
+        v_value = [-100] * len(self.states)  # the value at index i is the performance for the state i in states
+        v_value_prime = [+100]*len(self.states)
 
+
+        while self.infinite_normal(v_value, v_value_prime) >= self.epsilon:
+            v_value_prime = v_value
+            for ind_s, s in enumerate(self.states):
+
+                q_s_a = [0]*len(pool_of_actions)
                 # for each action
                 for ind_a, a in enumerate(pool_of_actions):
                     r_s_a, p_sPrime_knowingSandA, s_prime = sim.simulate(s.copy(), a, 'Dynamic Programming')
-                    # warning p_sPrime and s_prime = lists
-                    # do sum
-                    if not p_sPrime_knowingSandA and not s_prime:
-                        q_s_a[ind_a] = r_s_a
-                    elif len(p_sPrime_knowingSandA) == len(s_prime):
-                        q_s_a[ind_a] = r_s_a
+                    q_s_a[ind_a] = r_s_a
+                    if p_sPrime_knowingSandA and s_prime and len(p_sPrime_knowingSandA) == len(s_prime):
                         for i, p in enumerate(p_sPrime_knowingSandA):
                             ind_s_prime = self.find_index_of_new_state(s_prime[i])
                             if ind_s_prime is None:
                                 break
                             q_s_a[ind_a] += self.discounted_factor * p * v_value_prime[ind_s_prime]
-                        #print(q_s_a)
                 # compute max value
-                ind_a_max, v_value[ind] = self.max_perf(q_s_a)
-                self.policy.add_optimized_policy(s, pool_of_actions[ind_a_max])
+                ind_a_max, v_value[ind_s] = self.max_perf(q_s_a)
+                self.policy.add_optimized_policy(s.copy(), pool_of_actions[ind_a_max])
 
-            if self.infinite_normal(v_value, v_value_prime) <= self.epsilon:
-                break
         print("performance: ", v_value)
         self.policy.show_policy()
         index_state_initial = self.find_index_of_new_state(self.initial_state)
