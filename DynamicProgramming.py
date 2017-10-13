@@ -53,7 +53,7 @@ class DynamicProgramming:
 
 
     def generate_all_states(self):
-        for b in range(0, State.battery_capacity):
+        for b in range(0, State.battery_capacity+1):
             for prx in range(0, State.sizeX):
                 for pry in range(0, State.sizeY):
                     for pbx in range(0, State.sizeX):

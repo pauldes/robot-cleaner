@@ -3,7 +3,7 @@ from copy import deepcopy
 
 ROOM_SIZE_X = 3
 ROOM_SIZE_Y = 2
-BATTERY_CAPACITY = 12
+BATTERY_CAPACITY = 9
 
 class State:
 
