@@ -22,7 +22,7 @@ def regroupListBySums(list,size_of_sums):
 
 class MonteCarlo:
 
-    epsilon = 0.8
+    epsilon = 0.6
     gama = 0.99
 
     def run(self, limit, episode_length):
@@ -43,9 +43,9 @@ class MonteCarlo:
 
         for n in range(0,limit):
 
-            self.epsilon = self.epsilon - (starting_epsilon/limit)
-            print('epsilon:'+str(self.epsilon))
+            self.epsilon = self.epsilon * 0.99
 
+            print('epsilon:'+str(self.epsilon))
             print("Boucle "+str(n)+" sur "+str(limit))
             perf = 0
 

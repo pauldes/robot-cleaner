@@ -120,7 +120,7 @@ class DynamicProgramming:
                 self.policy.add_optimized_policy(s.copy(), pool_of_actions[ind_a_max])
 
         print("performance: ", v_value)
-        self.policy.show_policy()
+        #self.policy.show_policy()
         index_state_initial = self.find_index_of_new_state(self.initial_state)
         v_initial = v_value[index_state_initial]
         print("performance initial DP : ", v_initial)

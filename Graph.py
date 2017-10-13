@@ -5,7 +5,7 @@ from DynamicProgramming import DynamicProgramming
 if __name__ == "__main__":
 
   EPISODE_LENGTH = 12
-  INFINITE_LIMIT = 500
+  INFINITE_LIMIT = 1000
 
 
   print('Computing Dynamic Programming...')
@@ -31,7 +31,7 @@ if __name__ == "__main__":
   graph.x_labels = map(str, range(0,INFINITE_LIMIT))
 
   graph.add('Monte-Carlo',monte_carlo_performances)
-  #graph.add('Dynamic Programming',d_p_performances)
+  graph.add('Dynamic Programming',d_p_performances)
 
   graph.render_to_file('graph_rendering.svg')
   print('done')
